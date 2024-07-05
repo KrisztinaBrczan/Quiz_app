@@ -1,5 +1,6 @@
 import { useState } from "react";
 import createQuiz from "../Services/createQuiz";
+import warningSvg from "../assets/warning.svg";
 
 const initialQuizValues = {
   question: "",
@@ -9,22 +10,68 @@ const initialQuizValues = {
   answerC: "",
   answerD: "",
   correctAnswer: "",
-  isDefault: false,
+  isDefault: true,
 };
 
 export default function CreateQuiz() {
   const [formData, setFormData] = useState(initialQuizValues);
-
-  console.log(formData);
+  const [error, setError] = useState({});
 
   function handleClearForm(e) {
     e.preventDefault();
     setFormData(initialQuizValues);
+    setError({});
   }
 
-  function handleQuizCreation(e) {
+  async function handleQuizCreation(e) {
     e.preventDefault();
-    console.log(category);
+    const formValidationErrors = {};
+    if (formData.category === "") {
+      formValidationErrors.category = (
+        <img src={warningSvg} alt="Warning Icon" />
+      );
+    }
+    if (!formData.question.trim()) {
+      formValidationErrors.question = (
+        <img src={warningSvg} alt="Warning Icon" />
+      );
+    }
+    if (!formData.answerA.trim()) {
+      formValidationErrors.answerA = (
+        <img src={warningSvg} alt="Warning Icon" />
+      );
+    }
+    if (!formData.answerB.trim()) {
+      formValidationErrors.answerB = (
+        <img src={warningSvg} alt="Warning Icon" />
+      );
+    }
+    if (!formData.answerC.trim()) {
+      formValidationErrors.answerC = (
+        <img src={warningSvg} alt="Warning Icon" />
+      );
+    }
+    if (!formData.answerD.trim()) {
+      formValidationErrors.answerD = (
+        <img src={warningSvg} alt="Warning Icon" />
+      );
+    }
+    if (formData.correctAnswer === "") {
+      formValidationErrors.correctAnswer = (
+        <img src={warningSvg} alt="Warning Icon" />
+      );
+    }
+    setError(formValidationErrors);
+
+    if (Object.keys(formValidationErrors).length === 0) {
+      try {
+        const docId = await createQuiz(formData.category, formData);
+        console.log(docId);
+        setFormData(initialQuizValues);
+      } catch (error) {
+        console.log("Error while creating quiz: ", error);
+      }
+    }
   }
 
   return (
@@ -51,7 +98,7 @@ export default function CreateQuiz() {
           noValidate
           onSubmit={handleQuizCreation}
         >
-          <div class="relative z-0 w-full mb-5 group">
+          <div class="relative z-0 w-full mb-5 group ">
             <label for="underline_select" class="sr-only">
               Underline select
             </label>
@@ -69,13 +116,21 @@ export default function CreateQuiz() {
               <option value="Geography">Geography</option>
               <option value="History">History</option>
               <option value="Literature">Literature</option>
+              <option value="Movies">Movies</option>
             </select>
+
             <label
               for="floating_email"
               class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-orange-500 peer-focus:dark:text-orange-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Category
             </label>
+
+            {error.category && (
+              <span className="absolute right-0 top-0 mt-5 mr-0">
+                {error.category}
+              </span>
+            )}
           </div>
           <div class="relative z-0 w-full mb-5 group">
             <input
@@ -90,12 +145,19 @@ export default function CreateQuiz() {
                 setFormData({ ...formData, question: e.target.value })
               }
             />
+
             <label
               for="floating_text"
               class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-orange-500 peer-focus:dark:text-orange-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Question
             </label>
+
+            {error.question && (
+              <span className="absolute right-0 top-0 mt-5 mr-0">
+                {error.question}
+              </span>
+            )}
           </div>
           <div class="relative z-0 w-full mb-5 group">
             <input
@@ -116,6 +178,12 @@ export default function CreateQuiz() {
             >
               Answer A
             </label>
+
+            {error.answerA && (
+              <span className="absolute right-0 top-0 mt-5 mr-0">
+                {error.answerA}
+              </span>
+            )}
           </div>
 
           <div class="relative z-0 w-full mb-5 group">
@@ -137,6 +205,12 @@ export default function CreateQuiz() {
             >
               Answer B
             </label>
+
+            {error.answerB && (
+              <span className="absolute right-0 top-0 mt-5 mr-0">
+                {error.answerB}
+              </span>
+            )}
           </div>
 
           <div class="relative z-0 w-full mb-5 group">
@@ -158,6 +232,12 @@ export default function CreateQuiz() {
             >
               Answer C
             </label>
+
+            {error.answerC && (
+              <span className="absolute right-0 top-0 mt-5 mr-0">
+                {error.answerC}
+              </span>
+            )}
           </div>
 
           <div class="relative z-0 w-full mb-5 group">
@@ -179,6 +259,12 @@ export default function CreateQuiz() {
             >
               Answer D
             </label>
+
+            {error.answerD && (
+              <span className="absolute right-0 top-0 mt-5 mr-0">
+                {error.answerD}
+              </span>
+            )}
           </div>
 
           <div class="relative z-0 w-full mb-5 group">
@@ -207,6 +293,12 @@ export default function CreateQuiz() {
             >
               Correct answer
             </label>
+
+            {error.correctAnswer && (
+              <span className="absolute right-0 top-0 mt-5 mr-0">
+                {error.correctAnswer}
+              </span>
+            )}
           </div>
 
           <div class="grid md:grid-cols-2 md:gap-6">
