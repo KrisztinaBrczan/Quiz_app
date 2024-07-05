@@ -1,6 +1,32 @@
+import { useState } from "react";
 import createQuiz from "../Services/createQuiz";
 
+const initialQuizValues = {
+  question: "",
+  category: "",
+  answerA: "",
+  answerB: "",
+  answerC: "",
+  answerD: "",
+  correctAnswer: "",
+  isDefault: false,
+};
+
 export default function CreateQuiz() {
+  const [formData, setFormData] = useState(initialQuizValues);
+
+  console.log(formData);
+
+  function handleClearForm(e) {
+    e.preventDefault();
+    setFormData(initialQuizValues);
+  }
+
+  function handleQuizCreation(e) {
+    e.preventDefault();
+    console.log(category);
+  }
+
   return (
     <>
       <h1
@@ -20,7 +46,11 @@ export default function CreateQuiz() {
           transform: "translate(-50%, -50%)",
         }}
       >
-        <form class="max-w-md mx-auto " noValidate>
+        <form
+          class="max-w-md mx-auto "
+          noValidate
+          onSubmit={handleQuizCreation}
+        >
           <div class="relative z-0 w-full mb-5 group">
             <label for="underline_select" class="sr-only">
               Underline select
@@ -28,6 +58,10 @@ export default function CreateQuiz() {
             <select
               id="underline_select"
               class="block py-2.5 px-0 w-full font-bold text-sm text-orange-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
+              value={formData.category}
+              onChange={(e) =>
+                setFormData({ ...formData, category: e.target.value })
+              }
             >
               <option selected value="">
                 {/* Choose a category... */}
@@ -51,6 +85,10 @@ export default function CreateQuiz() {
               class="block py-2.5 px-0 w-full font-bold text-sm text-orange-500 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
               required
+              value={formData.question}
+              onChange={(e) =>
+                setFormData({ ...formData, question: e.target.value })
+              }
             />
             <label
               for="floating_text"
@@ -67,6 +105,10 @@ export default function CreateQuiz() {
               class="block py-2.5 px-0 w-full font-bold text-sm text-orange-500 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
               required
+              value={formData.answerA}
+              onChange={(e) =>
+                setFormData({ ...formData, answerA: e.target.value })
+              }
             />
             <label
               for="floating_repeat_text"
@@ -84,6 +126,10 @@ export default function CreateQuiz() {
               class="block py-2.5 px-0 w-full font-bold text-sm text-orange-500 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
               required
+              value={formData.answerB}
+              onChange={(e) =>
+                setFormData({ ...formData, answerB: e.target.value })
+              }
             />
             <label
               for="floating_repeat_text"
@@ -101,6 +147,10 @@ export default function CreateQuiz() {
               class="block py-2.5 px-0 w-full font-bold text-sm text-orange-500 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
               required
+              value={formData.answerC}
+              onChange={(e) =>
+                setFormData({ ...formData, answerC: e.target.value })
+              }
             />
             <label
               for="floating_repeat_text"
@@ -118,6 +168,10 @@ export default function CreateQuiz() {
               class="block py-2.5 px-0 w-full font-bold text-sm text-orange-500 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
               required
+              value={formData.answerD}
+              onChange={(e) =>
+                setFormData({ ...formData, answerD: e.target.value })
+              }
             />
             <label
               for="floating_repeat_text"
@@ -134,6 +188,10 @@ export default function CreateQuiz() {
             <select
               id="underline_select"
               class="block py-2.5 px-0 w-full font-bold text-sm text-orange-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
+              value={formData.correctAnswer}
+              onChange={(e) =>
+                setFormData({ ...formData, correctAnswer: e.target.value })
+              }
             >
               <option selected value="">
                 {/* Choose the correct answer... */}
@@ -155,6 +213,7 @@ export default function CreateQuiz() {
             <button
               type="button"
               class="text-gray-700 bg-gray-200 hover:bg-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700"
+              onClick={handleClearForm}
             >
               Clear
             </button>
