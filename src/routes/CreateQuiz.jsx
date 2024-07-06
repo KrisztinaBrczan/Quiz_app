@@ -10,7 +10,7 @@ const initialQuizValues = {
   answerC: "",
   answerD: "",
   correctAnswer: "",
-  isDefault: true,
+  isDefault: false,
 };
 
 export default function CreateQuiz() {
