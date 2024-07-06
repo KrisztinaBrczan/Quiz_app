@@ -16,6 +16,7 @@ const initialQuizValues = {
 export default function CreateQuiz() {
   const [formData, setFormData] = useState(initialQuizValues);
   const [error, setError] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleClearForm(e) {
     e.preventDefault();
@@ -25,6 +26,7 @@ export default function CreateQuiz() {
 
   async function handleQuizCreation(e) {
     e.preventDefault();
+
     const formValidationErrors = {};
     if (formData.category === "") {
       formValidationErrors.category = (
@@ -64,6 +66,7 @@ export default function CreateQuiz() {
     setError(formValidationErrors);
 
     if (Object.keys(formValidationErrors).length === 0) {
+      setIsLoading(true);
       try {
         const docId = await createQuiz(formData.category, formData);
         console.log(docId);
@@ -72,6 +75,7 @@ export default function CreateQuiz() {
         console.log("Error while creating quiz: ", error);
       }
     }
+    setIsLoading(false);
   }
 
   return (
@@ -99,7 +103,7 @@ export default function CreateQuiz() {
           onSubmit={handleQuizCreation}
         >
           <div className="relative z-0 w-full mb-5 group ">
-            <label for="underline_select" className="sr-only">
+            <label htmlFor="underline_select" className="sr-only">
               Underline select
             </label>
             <select
@@ -109,6 +113,7 @@ export default function CreateQuiz() {
               onChange={(e) =>
                 setFormData({ ...formData, category: e.target.value })
               }
+              disabled={isLoading}
             >
               <option selected value="">
                 {/* Choose a category... */}
@@ -144,6 +149,7 @@ export default function CreateQuiz() {
               onChange={(e) =>
                 setFormData({ ...formData, question: e.target.value })
               }
+              disabled={isLoading}
             />
 
             <label
@@ -171,6 +177,7 @@ export default function CreateQuiz() {
               onChange={(e) =>
                 setFormData({ ...formData, answerA: e.target.value })
               }
+              disabled={isLoading}
             />
             <label
               for="floating_repeat_text"
@@ -198,6 +205,7 @@ export default function CreateQuiz() {
               onChange={(e) =>
                 setFormData({ ...formData, answerB: e.target.value })
               }
+              disabled={isLoading}
             />
             <label
               for="floating_repeat_text"
@@ -225,6 +233,7 @@ export default function CreateQuiz() {
               onChange={(e) =>
                 setFormData({ ...formData, answerC: e.target.value })
               }
+              disabled={isLoading}
             />
             <label
               for="floating_repeat_text"
@@ -252,6 +261,7 @@ export default function CreateQuiz() {
               onChange={(e) =>
                 setFormData({ ...formData, answerD: e.target.value })
               }
+              disabled={isLoading}
             />
             <label
               for="floating_repeat_text"
@@ -278,6 +288,7 @@ export default function CreateQuiz() {
               onChange={(e) =>
                 setFormData({ ...formData, correctAnswer: e.target.value })
               }
+              disabled={isLoading}
             >
               <option selected value="">
                 {/* Choose the correct answer... */}
@@ -306,14 +317,16 @@ export default function CreateQuiz() {
               type="button"
               className="text-gray-700 bg-gray-200 hover:bg-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700"
               onClick={handleClearForm}
+              disabled={isLoading}
             >
               Clear
             </button>
             <button
               type="submit"
               className="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:border-orange-500"
+              disabled={isLoading}
             >
-              Save
+              {isLoading ? "Saving..." : "Save"}
             </button>
           </div>
         </form>
