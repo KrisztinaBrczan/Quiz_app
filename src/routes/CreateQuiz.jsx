@@ -16,6 +16,7 @@ const initialQuizValues = {
 export default function CreateQuiz() {
   const [formData, setFormData] = useState(initialQuizValues);
   const [error, setError] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleClearForm(e) {
     e.preventDefault();
@@ -25,6 +26,7 @@ export default function CreateQuiz() {
 
   async function handleQuizCreation(e) {
     e.preventDefault();
+
     const formValidationErrors = {};
     if (formData.category === "") {
       formValidationErrors.category = (
@@ -64,6 +66,7 @@ export default function CreateQuiz() {
     setError(formValidationErrors);
 
     if (Object.keys(formValidationErrors).length === 0) {
+      setIsLoading(true);
       try {
         const docId = await createQuiz(formData.category, formData);
         console.log(docId);
@@ -72,6 +75,7 @@ export default function CreateQuiz() {
         console.log("Error while creating quiz: ", error);
       }
     }
+    setIsLoading(false);
   }
 
   return (
@@ -99,7 +103,7 @@ export default function CreateQuiz() {
           onSubmit={handleQuizCreation}
         >
           <div className="relative z-0 w-full mb-5 group ">
-            <label for="underline_select" className="sr-only">
+            <label htmlFor="underline_select" className="sr-only">
               Underline select
             </label>
             <select
@@ -109,6 +113,7 @@ export default function CreateQuiz() {
               onChange={(e) =>
                 setFormData({ ...formData, category: e.target.value })
               }
+              disabled={isLoading}
             >
               <option selected value="">
                 {/* Choose a category... */}
@@ -120,7 +125,7 @@ export default function CreateQuiz() {
             </select>
 
             <label
-              for="floating_email"
+              htmlFor="floating_email"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-orange-500 peer-focus:dark:text-orange-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Category
@@ -144,10 +149,11 @@ export default function CreateQuiz() {
               onChange={(e) =>
                 setFormData({ ...formData, question: e.target.value })
               }
+              disabled={isLoading}
             />
 
             <label
-              for="floating_text"
+              htmlFor="floating_text"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-orange-500 peer-focus:dark:text-orange-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Question
@@ -171,9 +177,10 @@ export default function CreateQuiz() {
               onChange={(e) =>
                 setFormData({ ...formData, answerA: e.target.value })
               }
+              disabled={isLoading}
             />
             <label
-              for="floating_repeat_text"
+              htmlFor="floating_repeat_text"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-orange-500 peer-focus:dark:text-orange-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Answer A
@@ -198,9 +205,10 @@ export default function CreateQuiz() {
               onChange={(e) =>
                 setFormData({ ...formData, answerB: e.target.value })
               }
+              disabled={isLoading}
             />
             <label
-              for="floating_repeat_text"
+              htmlFor="floating_repeat_text"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-orange-500 peer-focus:dark:text-orange-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Answer B
@@ -225,9 +233,10 @@ export default function CreateQuiz() {
               onChange={(e) =>
                 setFormData({ ...formData, answerC: e.target.value })
               }
+              disabled={isLoading}
             />
             <label
-              for="floating_repeat_text"
+              htmlFor="floating_repeat_text"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-orange-500 peer-focus:dark:text-orange-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Answer C
@@ -252,9 +261,10 @@ export default function CreateQuiz() {
               onChange={(e) =>
                 setFormData({ ...formData, answerD: e.target.value })
               }
+              disabled={isLoading}
             />
             <label
-              for="floating_repeat_text"
+              htmlFor="floating_repeat_text"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-orange-500 peer-focus:dark:text-orange-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Answer D
@@ -268,7 +278,7 @@ export default function CreateQuiz() {
           </div>
 
           <div className="relative z-0 w-full mb-5 group">
-            <label for="underline_select" className="sr-only">
+            <label htmlFor="underline_select" className="sr-only">
               Underline select
             </label>
             <select
@@ -278,17 +288,18 @@ export default function CreateQuiz() {
               onChange={(e) =>
                 setFormData({ ...formData, correctAnswer: e.target.value })
               }
+              disabled={isLoading}
             >
               <option selected value="">
                 {/* Choose the correct answer... */}
               </option>
-              <option value="answerA">Answer A</option>
-              <option value="answerB">Answer B</option>
-              <option value="answerC">Answer C</option>
-              <option value="answerD">Answer D</option>
+              <option value="answerA">Answer A ({formData.answerA})</option>
+              <option value="answerB">Answer B ({formData.answerB})</option>
+              <option value="answerC">Answer C ({formData.answerC})</option>
+              <option value="answerD">Answer D ({formData.answerD})</option>
             </select>
             <label
-              for="floating_email"
+              htmlFor="floating_email"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-orange-500 peer-focus:dark:text-orange-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Correct answer
@@ -306,14 +317,16 @@ export default function CreateQuiz() {
               type="button"
               className="text-gray-700 bg-gray-200 hover:bg-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700"
               onClick={handleClearForm}
+              disabled={isLoading}
             >
               Clear
             </button>
             <button
               type="submit"
               className="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:border-orange-500"
+              disabled={isLoading}
             >
-              Save
+              {isLoading ? "Saving..." : "Save"}
             </button>
           </div>
         </form>
