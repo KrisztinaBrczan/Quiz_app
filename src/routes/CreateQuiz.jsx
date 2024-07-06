@@ -293,10 +293,26 @@ export default function CreateQuiz() {
               <option selected value="">
                 {/* Choose the correct answer... */}
               </option>
-              <option value="answerA">Answer A ({formData.answerA})</option>
-              <option value="answerB">Answer B ({formData.answerB})</option>
-              <option value="answerC">Answer C ({formData.answerC})</option>
-              <option value="answerD">Answer D ({formData.answerD})</option>
+              <option value="answerA">
+                {formData.answerA
+                  ? `Answer A (${formData.answerA})`
+                  : "Answer A"}
+              </option>
+              <option value="answerB">
+                {formData.answerB
+                  ? `Answer B (${formData.answerB})`
+                  : "Answer B"}
+              </option>
+              <option value="answerC">
+                {formData.answerC
+                  ? `Answer C (${formData.answerC})`
+                  : "Answer C"}
+              </option>
+              <option value="answerD">
+                {formData.answerD
+                  ? `Answer D (${formData.answerD})`
+                  : "Answer D"}
+              </option>
             </select>
             <label
               htmlFor="floating_email"
