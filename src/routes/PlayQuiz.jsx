@@ -4,7 +4,22 @@ export default function PlayQuiz() {
   return (
     <>
       <Header />
-      <h1>Play quiz</h1>
+      <div className="choose-category">
+        <label>
+          <input type="radio" name="quiz-category" value="geography" />{" "}
+          Geography
+        </label>
+        <label>
+          <input type="radio" name="quiz-category" value="history" /> History
+        </label>
+        <label>
+          <input type="radio" name="quiz-category" value="literature" />{" "}
+          Literature
+        </label>
+        <label>
+          <input type="radio" name="quiz-category" value="movies" /> Movies
+        </label>
+      </div>
     </>
   );
 }
