@@ -1,3 +1,10 @@
+import Header from "../Components/Header";
+
 export default function PlayQuiz() {
-  return <h1>Play quiz</h1>;
+  return (
+    <>
+      <Header />
+      <h1>Play quiz</h1>
+    </>
+  );
 }

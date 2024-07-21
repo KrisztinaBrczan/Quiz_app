@@ -1,6 +1,7 @@
 import { useState } from "react";
 import createQuiz from "../Services/createQuiz";
 import warningSvg from "../assets/warning.svg";
+import Header from "../Components/Header";
 
 const initialQuizValues = {
   question: "",
@@ -80,6 +81,7 @@ export default function CreateQuiz() {
 
   return (
     <>
+      <Header />
       <h1
         className="flex flex-col space-y-4 text-5xl text-center"
         style={{ padding: "1rem" }}
