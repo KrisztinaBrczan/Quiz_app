@@ -5,7 +5,9 @@ import readQuiz from "../Services/readQuiz";
 export default function PlayQuiz() {
   const [gameCategory, setGameCategory] = useState("Geography");
   const [gameQuestions, setGameQuestions] = useState([]);
+  const [questionIndex, setQuestionIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [showGame, setShowGame] = useState(false);
 
   async function handleGenerateGame(e) {
     e.preventDefault();
@@ -22,8 +24,22 @@ export default function PlayQuiz() {
     }
 
     setIsLoading(false);
+    setShowGame(true);
   }
   console.log(gameQuestions);
+
+  function handleNextQuestion(e) {
+    console.log("kattintás");
+    e.preventDefault();
+    if (questionIndex < 10) {
+      setQuestionIndex(questionIndex + 1);
+    }
+
+    if (questionIndex === 10) {
+      setShowGame(false);
+      setQuestionIndex(0);
+    }
+  }
 
   return (
     <>
@@ -80,9 +96,90 @@ export default function PlayQuiz() {
           disabled={isLoading}
           className="text-orange-500 border-2 border-orange-600 hover:text-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:focus:border-orange-500"
         >
-          {isLoading ? "Please wait..." : "Generate!"}
+          {isLoading ? "Please wait..." : "Start!"}
         </button>
       </div>
+
+      {showGame && (
+        <div className="flex items-center justify-center">
+          <div className="w-2/3 h-1/3 p-5">
+            <div className="flex justify-between">
+              <h1>Category: {gameCategory}</h1>
+              <button className="text-orange-600">X</button>
+            </div>
+
+            <div key={gameQuestions[questionIndex].id}>
+              <h1>Question {questionIndex + 1}/10</h1>
+
+              <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                <div
+                  className="bg-orange-600 h-2.5 rounded-full"
+                  style={{ width: `${((questionIndex + 1) / 10) * 100}%` }}
+                ></div>
+              </div>
+              <div className="flex items-left flex-col gap-4 ">
+                <h2 className="text-orange-500 text-xl">
+                  {gameQuestions[questionIndex].question}
+                </h2>
+
+                <div className="grid grid-cols-2 gap-4 p-4">
+                  <label className="flex items-center p-4 border border-orange-500 rounded-lg shadow-md hover:border-orange-600 cursor-pointer transition bg-gray-800  hover: transition hover:bg-gradient-to-r from-gray-700 to-gray-800">
+                    <input
+                      type="radio"
+                      name="answer"
+                      className="form-radio text-orange-500 ring-2 ring-transparent focus:ring-orange-500 "
+                    />
+                    <span className="ml-2 text-white">
+                      {gameQuestions[questionIndex].answerA}
+                    </span>
+                  </label>
+
+                  <label className="flex items-center p-4 border border-orange-500 rounded-lg shadow-md hover:border-orange-600 cursor-pointer transition bg-gray-800  hover: transition hover:bg-gradient-to-r from-gray-700 to-gray-800">
+                    <input
+                      type="radio"
+                      name="answer"
+                      className="form-radio text-orange-500 ring-2 ring-transparent focus:ring-orange-500"
+                    />
+                    <span className="ml-2 text-white">
+                      {gameQuestions[questionIndex].answerB}
+                    </span>
+                  </label>
+
+                  <label className="flex items-center p-4 border border-orange-500 rounded-lg shadow-md hover:border-orange-600 cursor-pointer transition bg-gray-800  hover: transition hover:bg-gradient-to-r from-gray-700 to-gray-800">
+                    <input
+                      type="radio"
+                      name="answer"
+                      className="form-radio text-orange-500 ring-2 ring-transparent focus:ring-orange-500"
+                    />
+                    <span className="ml-2 text-white">
+                      {gameQuestions[questionIndex].answerC}
+                    </span>
+                  </label>
+
+                  <label className="flex items-center p-4 border border-orange-500 rounded-lg shadow-md hover:border-orange-600 cursor-pointer transition bg-gray-800  hover: transition hover:bg-gradient-to-r from-gray-700 to-gray-800">
+                    <input
+                      type="radio"
+                      name="answer"
+                      className="form-radio text-orange-500 ring-2 ring-transparent focus:ring-orange-500"
+                    />
+                    <span className="ml-2 text-white">
+                      {gameQuestions[questionIndex].answerD}
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <button
+                onClick={handleNextQuestion}
+                className="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:border-orange-500"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
