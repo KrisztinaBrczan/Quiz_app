@@ -19,9 +19,13 @@ export default function PlayQuiz() {
       interval = measureTime(setSeconds, setMinutes);
     }
 
-    if (!showGame) {
-      clearInterval(interval);
-    }
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+        setMinutes(0);
+        setSeconds(0);
+      }
+    };
   }, [showGame]);
 
   async function handleGenerateGame(e) {
@@ -54,6 +58,12 @@ export default function PlayQuiz() {
       setShowGame(false);
       setQuestionIndex(0);
     }
+  }
+
+  function handleGameExit(e) {
+    e.preventDefault();
+    setShowGame(false);
+    setQuestionIndex(0);
   }
 
   return (
@@ -124,7 +134,9 @@ export default function PlayQuiz() {
           <div className="w-2/3 h-1/3 p-5">
             <div className="flex justify-between">
               <h1>Category: {gameCategory}</h1>
-              <button className="text-orange-600">X</button>
+              <button className="text-orange-600" onClick={handleGameExit}>
+                X
+              </button>
             </div>
 
             <div key={gameQuestions[questionIndex].id}>
