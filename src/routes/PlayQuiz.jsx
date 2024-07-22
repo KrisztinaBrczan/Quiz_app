@@ -9,7 +9,7 @@ export default function PlayQuiz() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [showGame, setShowGame] = useState(false);
-  //
+
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
 
@@ -68,6 +68,7 @@ export default function PlayQuiz() {
             value="Geography"
             checked={gameCategory === "Geography"}
             onChange={(e) => setGameCategory(e.target.value)}
+            disabled={showGame}
           />{" "}
           Geography
         </label>
@@ -79,6 +80,7 @@ export default function PlayQuiz() {
             value="History"
             checked={gameCategory === "History"}
             onChange={(e) => setGameCategory(e.target.value)}
+            disabled={showGame}
           />{" "}
           History
         </label>
@@ -90,6 +92,7 @@ export default function PlayQuiz() {
             value="Literature"
             checked={gameCategory === "Literature"}
             onChange={(e) => setGameCategory(e.target.value)}
+            disabled={showGame}
           />{" "}
           Literature
         </label>
@@ -101,6 +104,7 @@ export default function PlayQuiz() {
             value="Movies"
             checked={gameCategory === "Movies"}
             onChange={(e) => setGameCategory(e.target.value)}
+            disabled={showGame}
           />{" "}
           Movies
         </label>
@@ -108,7 +112,7 @@ export default function PlayQuiz() {
       <div className="flex justify-center mt-9">
         <button
           onClick={handleGenerateGame}
-          disabled={isLoading}
+          disabled={isLoading || showGame}
           className="text-orange-500 border-2 border-orange-600 hover:text-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:focus:border-orange-500"
         >
           {isLoading ? "Please wait..." : "Start!"}
