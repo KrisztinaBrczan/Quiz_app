@@ -9,9 +9,10 @@ export default function PlayQuiz() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [showGame, setShowGame] = useState(false);
-
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
+  const [correctAnswerCount, setCorrectAnswerCount] = useState(0);
+  const [userSelection, setUserSelection] = useState("");
 
   useEffect(() => {
     let interval;
@@ -48,7 +49,6 @@ export default function PlayQuiz() {
   console.log(gameQuestions);
 
   function handleNextQuestion(e) {
-    console.log("kattintás");
     e.preventDefault();
     if (questionIndex < 10) {
       setQuestionIndex(questionIndex + 1);
@@ -58,6 +58,12 @@ export default function PlayQuiz() {
       setShowGame(false);
       setQuestionIndex(0);
     }
+
+    if (
+      userSelection.trim() === gameQuestions[questionIndex].correctAnswer.trim()
+    ) {
+      setCorrectAnswerCount(correctAnswerCount + 1);
+    }
   }
 
   function handleGameExit(e) {
@@ -65,6 +71,10 @@ export default function PlayQuiz() {
     setShowGame(false);
     setQuestionIndex(0);
   }
+
+  console.log("a helyes válasz:", gameQuestions[questionIndex]?.correctAnswer);
+  console.log("amit a user választott:", userSelection);
+  console.log("helyes válaszok száma:", correctAnswerCount);
 
   return (
     <>
@@ -159,6 +169,8 @@ export default function PlayQuiz() {
                       type="radio"
                       name="answer"
                       className="form-radio text-orange-500 ring-2 ring-transparent focus:ring-orange-500 "
+                      value={"answerA"}
+                      onChange={(e) => setUserSelection(e.target.value)}
                     />
                     <span className="ml-2 text-white">
                       {gameQuestions[questionIndex].answerA}
@@ -170,6 +182,8 @@ export default function PlayQuiz() {
                       type="radio"
                       name="answer"
                       className="form-radio text-orange-500 ring-2 ring-transparent focus:ring-orange-500"
+                      value={"answerB"}
+                      onChange={(e) => setUserSelection(e.target.value)}
                     />
                     <span className="ml-2 text-white">
                       {gameQuestions[questionIndex].answerB}
@@ -181,6 +195,8 @@ export default function PlayQuiz() {
                       type="radio"
                       name="answer"
                       className="form-radio text-orange-500 ring-2 ring-transparent focus:ring-orange-500"
+                      value={"answerC"}
+                      onChange={(e) => setUserSelection(e.target.value)}
                     />
                     <span className="ml-2 text-white">
                       {gameQuestions[questionIndex].answerC}
@@ -192,6 +208,8 @@ export default function PlayQuiz() {
                       type="radio"
                       name="answer"
                       className="form-radio text-orange-500 ring-2 ring-transparent focus:ring-orange-500"
+                      value={"answerD"}
+                      onChange={(e) => setUserSelection(e.target.value)}
                     />
                     <span className="ml-2 text-white">
                       {gameQuestions[questionIndex].answerD}
@@ -204,6 +222,7 @@ export default function PlayQuiz() {
               <div className="text-orange-500">
                 {minutes} : {seconds}
               </div>
+              <div>{correctAnswerCount}</div>
               <button
                 onClick={handleNextQuestion}
                 className="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:border-orange-500"
