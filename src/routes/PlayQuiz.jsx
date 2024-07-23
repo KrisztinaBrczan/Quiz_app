@@ -87,12 +87,16 @@ export default function PlayQuiz() {
     setCorrectAnswerCount(0);
     setShowResult(false);
     setIsRegisterClicked(false);
+    setMinutes(0);
+    setSeconds(0);
   }
 
   function handlePlayAgain(e) {
     e.preventDefault();
     setShowResult(false);
     setIsRegisterClicked(false);
+    setMinutes(0);
+    setSeconds(0);
   }
 
   function handleRegisterResult(e) {
