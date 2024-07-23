@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Header from "../Components/Header";
 import readQuiz from "../Services/readQuiz";
 import measureTime from "../Utils/measureTime";
+import GameResult from "../Components/GameResult";
 
 export default function PlayQuiz() {
   const [gameCategory, setGameCategory] = useState("Geography");
@@ -13,6 +14,7 @@ export default function PlayQuiz() {
   const [seconds, setSeconds] = useState(0);
   const [correctAnswerCount, setCorrectAnswerCount] = useState(0);
   const [userSelection, setUserSelection] = useState("");
+  const [showResult, setShowResult] = useState(false);
 
   useEffect(() => {
     let interval;
@@ -32,6 +34,8 @@ export default function PlayQuiz() {
   async function handleGenerateGame(e) {
     e.preventDefault();
     setIsLoading(true);
+    setShowResult(false);
+    setCorrectAnswerCount(0);
 
     try {
       let questions = await readQuiz(gameCategory);
@@ -54,8 +58,9 @@ export default function PlayQuiz() {
       setQuestionIndex(questionIndex + 1);
     }
 
-    if (questionIndex === 10) {
+    if (questionIndex >= 9) {
       setShowGame(false);
+      setShowResult(true);
       setQuestionIndex(0);
     }
 
@@ -70,6 +75,8 @@ export default function PlayQuiz() {
     e.preventDefault();
     setShowGame(false);
     setQuestionIndex(0);
+    setCorrectAnswerCount(0);
+    setShowResult(false);
   }
 
   console.log("a helyes válasz:", gameQuestions[questionIndex]?.correctAnswer);
@@ -79,7 +86,10 @@ export default function PlayQuiz() {
   return (
     <>
       <Header />
-      <div className=" text-orange-500 flex justify-center gap-4">
+      <div
+        className=" text-orange-500 flex justify-center gap-4"
+        style={{ display: showResult ? "none" : "visible" }}
+      >
         <label>
           <input
             className="w-4 h-4 text-orange-500 bg-gray-100 border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -134,6 +144,7 @@ export default function PlayQuiz() {
           onClick={handleGenerateGame}
           disabled={isLoading || showGame}
           className="text-orange-500 border-2 border-orange-600 hover:text-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:focus:border-orange-500"
+          style={{ display: showResult ? "none" : "visible" }}
         >
           {isLoading ? "Please wait..." : "Start!"}
         </button>
@@ -232,6 +243,12 @@ export default function PlayQuiz() {
             </div>
           </div>
         </div>
+      )}
+      {showResult && (
+        <GameResult
+          correctAnswerCount={correctAnswerCount}
+          gameQuestions={gameQuestions}
+        />
       )}
     </>
   );
