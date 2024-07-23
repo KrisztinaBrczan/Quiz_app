@@ -41,7 +41,7 @@ export default function PlayQuiz() {
       let questions = await readQuiz(gameCategory);
       let randomQuestions = questions
         .sort(() => Math.random() - 0.5)
-        .slice(0, 10);
+        .slice(0, 15);
       setGameQuestions(randomQuestions);
     } catch (error) {
       console.log(error);
@@ -54,12 +54,12 @@ export default function PlayQuiz() {
 
   function handleNextQuestion(e) {
     e.preventDefault();
-    if (questionIndex < 10) {
+    if (questionIndex < gameQuestions.length) {
       setQuestionIndex(questionIndex + 1);
       setUserSelection("");
     }
 
-    if (questionIndex >= 9) {
+    if (questionIndex >= gameQuestions.length - 1) {
       setShowGame(false);
       setShowResult(true);
       setQuestionIndex(0);
@@ -89,7 +89,7 @@ export default function PlayQuiz() {
   console.log("a helyes válasz:", gameQuestions[questionIndex]?.correctAnswer);
   console.log("amit a user választott:", userSelection);
   console.log("helyes válaszok száma:", correctAnswerCount);
-
+  console.log("gameQuestions hossza:", gameQuestions.length);
   return (
     <>
       <Header />
@@ -168,12 +168,18 @@ export default function PlayQuiz() {
             </div>
 
             <div key={gameQuestions[questionIndex].id}>
-              <h1>Question {questionIndex + 1}/10</h1>
+              <h1>
+                Question {questionIndex + 1}/{gameQuestions.length}
+              </h1>
 
               <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
                 <div
                   className="bg-orange-600 h-2.5 rounded-full"
-                  style={{ width: `${((questionIndex + 1) / 10) * 100}%` }}
+                  style={{
+                    width: `${
+                      ((questionIndex + 1) / gameQuestions.length) * 100
+                    }%`,
+                  }}
                 ></div>
               </div>
               <div className="flex items-left flex-col gap-4 ">

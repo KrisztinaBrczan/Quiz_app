@@ -3,7 +3,7 @@ export default function GameResult({
   gameQuestions,
   handlePlayAgain,
 }) {
-  const score = (correctAnswerCount / gameQuestions.length) * 100;
+  const score = ((correctAnswerCount / gameQuestions.length) * 100).toFixed(2);
 
   return (
     <>
