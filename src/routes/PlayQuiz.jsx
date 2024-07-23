@@ -79,6 +79,11 @@ export default function PlayQuiz() {
     setShowResult(false);
   }
 
+  function handlePlayAgain(e) {
+    e.preventDefault();
+    setShowResult(false);
+  }
+
   console.log("a helyes válasz:", gameQuestions[questionIndex]?.correctAnswer);
   console.log("amit a user választott:", userSelection);
   console.log("helyes válaszok száma:", correctAnswerCount);
@@ -88,7 +93,7 @@ export default function PlayQuiz() {
       <Header />
       <div
         className=" text-orange-500 flex justify-center gap-4"
-        style={{ display: showResult ? "none" : "visible" }}
+        style={{ display: showResult ? "none" : "flex" }}
       >
         <label>
           <input
@@ -144,7 +149,7 @@ export default function PlayQuiz() {
           onClick={handleGenerateGame}
           disabled={isLoading || showGame}
           className="text-orange-500 border-2 border-orange-600 hover:text-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:focus:border-orange-500"
-          style={{ display: showResult ? "none" : "visible" }}
+          style={{ display: showResult ? "none" : "flex" }}
         >
           {isLoading ? "Please wait..." : "Start!"}
         </button>
@@ -248,6 +253,7 @@ export default function PlayQuiz() {
         <GameResult
           correctAnswerCount={correctAnswerCount}
           gameQuestions={gameQuestions}
+          handlePlayAgain={handlePlayAgain}
         />
       )}
     </>

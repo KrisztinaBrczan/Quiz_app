@@ -1,4 +1,8 @@
-export default function GameResult({ correctAnswerCount, gameQuestions }) {
+export default function GameResult({
+  correctAnswerCount,
+  gameQuestions,
+  handlePlayAgain,
+}) {
   const score = (correctAnswerCount / gameQuestions.length) * 100;
 
   return (
@@ -69,7 +73,10 @@ export default function GameResult({ correctAnswerCount, gameQuestions }) {
           </div>
         </div>
         <div className="flex gap-2 mt-4">
-          <button className="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:border-orange-500">
+          <button
+            className="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:border-orange-500"
+            onClick={handlePlayAgain}
+          >
             Play again
           </button>
           <button className="text-white bg-green-500 hover:bg-green-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:border-green-500">
