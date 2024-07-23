@@ -51,13 +51,12 @@ export default function PlayQuiz() {
         .slice(0, 15);
       setGameQuestions(randomQuestions);
     } catch (error) {
-      console.log(error);
+      console.log("Error while generating the questions...", error);
     }
 
     setIsLoading(false);
     setShowGame(true);
   }
-  console.log(gameQuestions);
 
   function handleNextQuestion(e) {
     e.preventDefault();
@@ -119,7 +118,6 @@ export default function PlayQuiz() {
 
     try {
       const docId = await createLeaderboard(result);
-      console.log(docId);
       console.log("minutes és seconds:", minutes, seconds);
     } catch (e) {
       console.log("Error while saving results:", e);
@@ -132,10 +130,6 @@ export default function PlayQuiz() {
     navigate("/leaderboard");
   }
 
-  console.log("a helyes válasz:", gameQuestions[questionIndex]?.correctAnswer);
-  console.log("amit a user választott:", userSelection);
-  console.log("helyes válaszok száma:", correctAnswerCount);
-  console.log("gameQuestions hossza:", gameQuestions.length);
   return (
     <>
       <Header />
