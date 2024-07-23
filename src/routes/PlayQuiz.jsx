@@ -3,6 +3,9 @@ import Header from "../Components/Header";
 import readQuiz from "../Services/readQuiz";
 import measureTime from "../Utils/measureTime";
 import GameResult from "../Components/GameResult";
+import RegisterResult from "../Components/RegisterResult";
+import createLeaderboard from "../Services/createLeaderboard";
+import { useNavigate } from "react-router";
 
 export default function PlayQuiz() {
   const [gameCategory, setGameCategory] = useState("Geography");
@@ -15,6 +18,10 @@ export default function PlayQuiz() {
   const [correctAnswerCount, setCorrectAnswerCount] = useState(0);
   const [userSelection, setUserSelection] = useState("");
   const [showResult, setShowResult] = useState(false);
+  const [username, setUsername] = useState("");
+  const [isRegisterClicked, setIsRegisterClicked] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     let interval;
@@ -79,11 +86,43 @@ export default function PlayQuiz() {
     setQuestionIndex(0);
     setCorrectAnswerCount(0);
     setShowResult(false);
+    setIsRegisterClicked(false);
   }
 
   function handlePlayAgain(e) {
     e.preventDefault();
     setShowResult(false);
+    setIsRegisterClicked(false);
+  }
+
+  function handleRegisterResult(e) {
+    e.preventDefault();
+    setIsRegisterClicked(true);
+  }
+
+  async function saveResult() {
+    let result = {
+      correctAnswer: correctAnswerCount,
+      date: new Date().toLocaleString(),
+      percentage: ((correctAnswerCount / gameQuestions.length) * 100).toFixed(
+        2
+      ),
+      username: username,
+      time: `${minutes}:${seconds}`,
+    };
+
+    setIsLoading(true);
+
+    try {
+      const docId = await createLeaderboard(result);
+      console.log(docId);
+    } catch (e) {
+      console.log("Error while saving results:", e);
+    }
+
+    setIsLoading(false);
+    setUsername("");
+    navigate("/leaderboard");
   }
 
   console.log("a helyes válasz:", gameQuestions[questionIndex]?.correctAnswer);
@@ -159,7 +198,7 @@ export default function PlayQuiz() {
 
       {showGame && (
         <div className="flex items-center justify-center">
-          <div className="w-2/3 h-1/3 p-5">
+          <div className="w-2/3 h-1/3 p-5 m-3">
             <div className="flex justify-between">
               <h1>Category: {gameCategory}</h1>
               <button className="text-orange-600" onClick={handleGameExit}>
@@ -168,13 +207,13 @@ export default function PlayQuiz() {
             </div>
 
             <div key={gameQuestions[questionIndex].id}>
-              <h1>
+              <h1 className="my-2">
                 Question {questionIndex + 1}/{gameQuestions.length}
               </h1>
 
-              <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+              <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mb-3 ">
                 <div
-                  className="bg-orange-600 h-2.5 rounded-full"
+                  className="bg-orange-600 h-2.5 rounded-full "
                   style={{
                     width: `${
                       ((questionIndex + 1) / gameQuestions.length) * 100
@@ -263,6 +302,15 @@ export default function PlayQuiz() {
           correctAnswerCount={correctAnswerCount}
           gameQuestions={gameQuestions}
           handlePlayAgain={handlePlayAgain}
+          handleRegisterResult={handleRegisterResult}
+        />
+      )}
+      {isRegisterClicked && (
+        <RegisterResult
+          username={username}
+          setUsername={setUsername}
+          saveResult={saveResult}
+          isLoading={isLoading}
         />
       )}
     </>
