@@ -56,12 +56,14 @@ export default function PlayQuiz() {
     e.preventDefault();
     if (questionIndex < 10) {
       setQuestionIndex(questionIndex + 1);
+      setUserSelection("");
     }
 
     if (questionIndex >= 9) {
       setShowGame(false);
       setShowResult(true);
       setQuestionIndex(0);
+      setUserSelection("");
     }
 
     if (
@@ -242,6 +244,7 @@ export default function PlayQuiz() {
               <button
                 onClick={handleNextQuestion}
                 className="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:border-orange-500"
+                disabled={userSelection === "" ? true : false}
               >
                 Next
               </button>
