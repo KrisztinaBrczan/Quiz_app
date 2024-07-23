@@ -286,7 +286,7 @@ export default function PlayQuiz() {
               <div className="text-orange-500">
                 {minutes} : {seconds}
               </div>
-              <div>{correctAnswerCount}</div>
+
               <button
                 onClick={handleNextQuestion}
                 className="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:border-orange-500"
