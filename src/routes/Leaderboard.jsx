@@ -53,40 +53,46 @@ export default function Leaderboard() {
                 <th className="px-4 py-2">Date</th>
               </tr>
             </thead>
-            {registeredResults.map(
-              ({
-                correctAnswer,
-                date,
-                id,
-                percentage,
-                questionAmount,
-                time,
-                username,
-                index,
-                category,
-              }) => (
-                <tbody>
+            <tbody>
+              {registeredResults.map(
+                ({
+                  correctAnswer,
+                  date,
+                  id,
+                  percentage,
+                  questionAmount,
+                  time,
+                  username,
+                  index,
+                  category,
+                }) => (
                   <tr key={id}>
-                    <td className="border px-4 py-2 text-gray-500">{index}</td>
-                    <td className="border px-4 py-2 text-gray-500">
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                      {index}
+                    </td>
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
                       {username}
                     </td>
-                    <td className="border px-4 py-2 text-gray-500">
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
                       {category}
                     </td>
-                    <td className="border px-4 py-2 text-gray-500">
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
                       {" "}
                       {correctAnswer}/{questionAmount}
                     </td>
-                    <td className="border px-4 py-2 text-gray-500">
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
                       {percentage} %
                     </td>
-                    <td className="border px-4 py-2 text-gray-500">{time}</td>
-                    <td className="border px-4 py-2 text-gray-500">{date}</td>
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                      {time}
+                    </td>
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                      {date}
+                    </td>
                   </tr>
-                </tbody>
-              )
-            )}
+                )
+              )}
+            </tbody>
           </table>
         </div>
       )}
