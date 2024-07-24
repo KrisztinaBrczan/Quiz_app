@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../Components/Header";
 import readLeaderboard from "../Services/readLeaderboard";
+import TableFilter from "../Components/TableFilter";
 
 export default function Leaderboard() {
   const [registeredResults, setRegisteredResults] = useState([]);
@@ -29,26 +30,7 @@ export default function Leaderboard() {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
-        <div className="flex justify-between text-orange-500 ">
-          <div>
-            Show{" "}
-            {
-              <select className="border border-orange-500 rounded p-2">
-                <option>10</option>
-                <option>25</option>
-                <option>50</option>
-              </select>
-            }
-            entries
-          </div>
-          <div>
-            <label htmlFor="searchResult">Search:</label>
-            <input
-              id="searchResult"
-              className="bg-[rgb(31,41,55)] text-orange-500 border border-orange-500 rounded p-2 focus:outline-none "
-            />
-          </div>
-        </div>
+        <TableFilter />
         <table id="example" className="table-auto w-full">
           <thead className="text-orange-500">
             <tr>
