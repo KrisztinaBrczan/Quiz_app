@@ -110,7 +110,7 @@ export default function CreateQuiz() {
             </label>
             <select
               id="underline_select"
-              className="block py-2.5 px-0 w-full font-bold text-sm text-orange-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
+              className=" block py-2.5 px-0 w-full font-bold text-sm text-orange-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               value={formData.category}
               onChange={(e) =>
                 setFormData({ ...formData, category: e.target.value })
