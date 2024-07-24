@@ -7,6 +7,7 @@ import Loader from "../Components/Loader";
 export default function Leaderboard() {
   const [registeredResults, setRegisteredResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSearchFielNecessary, setIsSearchFieldNecessary] = useState(false);
 
   useEffect(() => {
     try {
@@ -40,7 +41,7 @@ export default function Leaderboard() {
         <Loader />
       ) : (
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <TableFilter />
+          <TableFilter isSearchFielNecessary={isSearchFielNecessary} />
           <table id="example" className="table-auto w-full">
             <thead className="text-orange-500">
               <tr>
@@ -65,6 +66,8 @@ export default function Leaderboard() {
                   username,
                   index,
                   category,
+                  minutes,
+                  seconds,
                 }) => (
                   <tr key={id}>
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
@@ -84,7 +87,7 @@ export default function Leaderboard() {
                       {percentage} %
                     </td>
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                      {time}
+                      {minutes}:{seconds}
                     </td>
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
                       {date}

@@ -112,6 +112,8 @@ export default function PlayQuiz() {
       time: `${minutes}:${seconds}`,
       questionAmount: gameQuestions.length,
       category: gameCategory,
+      minutes: minutes,
+      seconds: seconds,
     };
     setIsLoading(true);
 

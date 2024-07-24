@@ -1,14 +1,20 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "../Firebase/init";
 
 export default async function readLeaderboard() {
-  const querySnapshot = await getDocs(collection(db, "leaderboard"));
+  let q = query(
+    collection(db, "leaderboard"),
+    orderBy("correctAnswer", "desc"),
+    orderBy("minutes", "asc"),
+    orderBy("seconds", "asc")
+  );
+  const querySnapshot = await getDocs(q);
+
   const registeredResults = [];
+
   querySnapshot.forEach((doc) => {
-    registeredResults.push({
-      id: doc.id,
-      ...doc.data(),
-    });
+    registeredResults.push({ id: doc.id, ...doc.data() });
   });
+
   return registeredResults;
 }

@@ -1,4 +1,4 @@
-export default function TableFilter() {
+export default function TableFilter({ isSearchFielNecessary }) {
   return (
     <div className="flex justify-between text-orange-500 mb-3">
       <div>
@@ -12,7 +12,7 @@ export default function TableFilter() {
         </span>{" "}
         entries
       </div>
-      <div>
+      <div style={{ display: isSearchFielNecessary ? "inline" : "none" }}>
         <label htmlFor="searchResult">Search: </label>
         <input
           id="searchResult"
