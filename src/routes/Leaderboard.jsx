@@ -62,7 +62,6 @@ export default function Leaderboard() {
                   id,
                   percentage,
                   questionAmount,
-                  time,
                   username,
                   index,
                   category,
