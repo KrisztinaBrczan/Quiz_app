@@ -32,8 +32,6 @@ export default function PlayQuiz() {
     return () => {
       if (interval) {
         clearInterval(interval);
-        // setMinutes(0);
-        // setSeconds(0);
       }
     };
   }, [showGame]);
@@ -112,13 +110,12 @@ export default function PlayQuiz() {
       ),
       username: username,
       time: `${minutes}:${seconds}`,
+      questionAmount: gameQuestions.length,
     };
-
     setIsLoading(true);
 
     try {
-      const docId = await createLeaderboard(result);
-      console.log("minutes és seconds:", minutes, seconds);
+      await createLeaderboard(result);
     } catch (e) {
       console.log("Error while saving results:", e);
     }
