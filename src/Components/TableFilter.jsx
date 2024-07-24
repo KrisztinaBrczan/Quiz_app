@@ -1,6 +1,6 @@
 export default function TableFilter() {
   return (
-    <div className="flex justify-between text-orange-500 ">
+    <div className="flex justify-between text-orange-500 mb-3">
       <div>
         Show{" "}
         <span>
@@ -9,11 +9,11 @@ export default function TableFilter() {
             <option>25</option>
             <option>50</option>
           </select>
-        </span>
+        </span>{" "}
         entries
       </div>
       <div>
-        <label htmlFor="searchResult">Search:</label>
+        <label htmlFor="searchResult">Search: </label>
         <input
           id="searchResult"
           className="bg-[rgb(31,41,55)] text-orange-500 border border-orange-500 rounded p-2 focus:outline-none "

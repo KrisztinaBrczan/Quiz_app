@@ -27,7 +27,6 @@ export default function Leaderboard() {
   console.log("registered results:", registeredResults);
   return (
     <>
-      {/*  */}
       <Header />
       <div className="flex justify-center">
         <h1
@@ -47,6 +46,7 @@ export default function Leaderboard() {
               <tr>
                 <th className="px-4 py-2">#</th>
                 <th className="px-4 py-2">Player</th>
+                <th className="px-4 py-2">Category</th>
                 <th className="px-4 py-2">Score</th>
                 <th className="px-4 py-2">Percent</th>
                 <th className="px-4 py-2">Time taken</th>
@@ -63,12 +63,16 @@ export default function Leaderboard() {
                 time,
                 username,
                 index,
+                category,
               }) => (
                 <tbody>
                   <tr key={id}>
                     <td className="border px-4 py-2 text-gray-500">{index}</td>
                     <td className="border px-4 py-2 text-gray-500">
                       {username}
+                    </td>
+                    <td className="border px-4 py-2 text-gray-500">
+                      {category}
                     </td>
                     <td className="border px-4 py-2 text-gray-500">
                       {" "}
