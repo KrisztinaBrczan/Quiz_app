@@ -14,9 +14,6 @@ export default function UpdateQuiz() {
     console.log(formData);
   }, []);
 
-  console.log("naaa", formData);
-  console.log("categoria", category);
-
   return (
     <>
       {formData.question && (

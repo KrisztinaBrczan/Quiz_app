@@ -75,8 +75,6 @@ export default function AllQuizQuestions() {
       ? moviesQuestions.slice(start, end)
       : [];
 
-  console.log("croppedresults ", croppedResults);
-
   function handlePageChange(newPage) {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("page", String(newPage));
