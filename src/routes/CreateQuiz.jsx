@@ -2,6 +2,7 @@ import { useState } from "react";
 import createQuiz from "../Services/createQuiz";
 import warningSvg from "../assets/warning.svg";
 import Header from "../Components/Header";
+import { useNavigate } from "react-router";
 
 const initialQuizValues = {
   question: "",
@@ -18,6 +19,8 @@ export default function CreateQuiz() {
   const [formData, setFormData] = useState(initialQuizValues);
   const [error, setError] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   function handleClearForm(e) {
     e.preventDefault();
@@ -82,12 +85,16 @@ export default function CreateQuiz() {
   return (
     <>
       <Header />
-      <h1
-        className="flex flex-col space-y-4 text-5xl text-center"
-        style={{ padding: "1rem" }}
-      >
-        Create quiz
-      </h1>
+
+      <div className="flex justify-center">
+        <h1
+          className="flex flex-col space-y-4 text-5xl text-center"
+          style={{ padding: "1rem" }}
+        >
+          Create quiz
+        </h1>
+      </div>
+
       <div
         style={{
           width: "100%",
@@ -104,7 +111,7 @@ export default function CreateQuiz() {
           noValidate
           onSubmit={handleQuizCreation}
         >
-          <div className="relative z-0 w-full mb-5 group ">
+          <div className="relative z-0 w-full mb-5 group space-y-5">
             <label htmlFor="underline_select" className="sr-only">
               Underline select
             </label>
@@ -348,6 +355,17 @@ export default function CreateQuiz() {
             </button>
           </div>
         </form>
+        {/*  */}
+        <div className="flex justify-center mt-5">
+          <button
+            onClick={() => navigate("/all-quiz-questions")}
+            className="text-orange-500 border-2 border-orange-600 hover:text-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:focus:border-orange-500"
+          >
+            List questions
+          </button>
+        </div>
+
+        {/*  */}
       </div>
     </>
   );

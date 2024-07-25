@@ -7,7 +7,7 @@ import MainLayout from "./Layouts/MainLayout";
 import CreateQuiz from "./routes/CreateQuiz";
 import Leaderboard from "./routes/Leaderboard";
 import PlayQuiz from "./routes/PlayQuiz";
-import UpdateQuiz from "./routes/UpdateQuiz";
+import AllQuizQuestions from "./routes/AllQuizQuestions";
 import Home from "./routes/Home";
 
 const router = createBrowserRouter([
@@ -25,8 +25,8 @@ const router = createBrowserRouter([
         element: <CreateQuiz />,
       },
       {
-        path: "/update-quiz/id",
-        element: <UpdateQuiz />,
+        path: "/all-quiz-questions",
+        element: <AllQuizQuestions />,
       },
       {
         path: "/play-quiz",

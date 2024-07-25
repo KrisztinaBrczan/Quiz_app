@@ -133,6 +133,7 @@ export default function PlayQuiz() {
   return (
     <>
       <Header />
+
       <div
         className=" text-orange-500 flex justify-center gap-4"
         style={{ display: showResult ? "none" : "flex" }}
@@ -186,6 +187,7 @@ export default function PlayQuiz() {
           Movies
         </label>
       </div>
+
       <div className="flex justify-center mt-9">
         <button
           onClick={handleGenerateGame}

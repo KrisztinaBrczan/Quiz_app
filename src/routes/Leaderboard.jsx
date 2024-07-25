@@ -132,6 +132,7 @@ export default function Leaderboard() {
         </div>
       )}
       <Pagination
+        isLoading={isLoading}
         page={Number(page)}
         perPage={Number(perPage)}
         registeredResultsLength={registeredResults.length}
