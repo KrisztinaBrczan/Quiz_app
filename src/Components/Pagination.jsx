@@ -3,12 +3,16 @@ export default function Pagination({
   perPage,
   registeredResultsLength,
   handlePageChange,
+  isLoading,
 }) {
   const totalPages = Math.ceil(registeredResultsLength / perPage);
 
   return (
     <>
-      <div className="flex justify-center items-center gap-4">
+      <div
+        className="flex justify-center items-center gap-4"
+        style={{ display: isLoading ? "none" : "flex" }}
+      >
         <button
           disabled={page <= 1}
           className="relative h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-lg border border-orange-500 text-center align-middle font-sans text-xs font-medium uppercase text-orange-500 transition-all hover:opacity-75 focus:ring focus:ring-orange-500 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"

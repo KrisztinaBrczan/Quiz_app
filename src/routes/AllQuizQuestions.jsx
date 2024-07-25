@@ -23,9 +23,8 @@ export default function AllQuizQuestions() {
   const [perPage, setPerPage] = useState(searchParams.get("perPage") || "10");
 
   useEffect(() => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-
       if (quizCategory === "Geography" && geographyQuestions.length === 0) {
         readQuiz(quizCategory).then((questions) => {
           setGeographyQuestions(questions);
@@ -127,6 +126,13 @@ export default function AllQuizQuestions() {
     }
   }
 
+  function handleCategoryChange(category) {
+    setQuizCategory(category);
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("page", "1");
+    setSearchParams(newSearchParams);
+  }
+
   return (
     <>
       <Header />
@@ -147,7 +153,7 @@ export default function AllQuizQuestions() {
             name="quiz-category"
             value="Geography"
             checked={quizCategory === "Geography"}
-            onChange={(e) => setQuizCategory(e.target.value)}
+            onChange={(e) => handleCategoryChange(e.target.value)}
           />{" "}
           Geography
         </label>
@@ -158,7 +164,7 @@ export default function AllQuizQuestions() {
             name="quiz-category"
             value="History"
             checked={quizCategory === "History"}
-            onChange={(e) => setQuizCategory(e.target.value)}
+            onChange={(e) => handleCategoryChange(e.target.value)}
           />{" "}
           History
         </label>
@@ -169,7 +175,7 @@ export default function AllQuizQuestions() {
             name="quiz-category"
             value="Literature"
             checked={quizCategory === "Literature"}
-            onChange={(e) => setQuizCategory(e.target.value)}
+            onChange={(e) => handleCategoryChange(e.target.value)}
           />{" "}
           Literature
         </label>
@@ -180,7 +186,7 @@ export default function AllQuizQuestions() {
             name="quiz-category"
             value="Movies"
             checked={quizCategory === "Movies"}
-            onChange={(e) => setQuizCategory(e.target.value)}
+            onChange={(e) => handleCategoryChange(e.target.value)}
           />{" "}
           Movies
         </label>
@@ -198,15 +204,14 @@ export default function AllQuizQuestions() {
           <table id="example" className="table-auto w-full">
             <thead className="text-orange-500">
               <tr>
-                <th className="px-4 py-2">#</th>
                 <th className="px-4 py-2">Question</th>
                 <th className="px-4 py-2">Answer A</th>
                 <th className="px-4 py-2">Answer B</th>
                 <th className="px-4 py-2">Answer C</th>
                 <th className="px-4 py-2">Answer D</th>
                 <th className="px-4 py-2">Correct Answer</th>
-                <th className="px-4 py-2"></th>
-                <th className="px-4 py-2"></th>
+                <th className="px-4 py-2 text-gray-800">.</th>
+                <th className="px-4 py-2 text-gray-800">.</th>
               </tr>
             </thead>
             <tbody>
@@ -223,10 +228,7 @@ export default function AllQuizQuestions() {
                   category,
                 }) => (
                   <tr key={id}>
-                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                      {id}
-                    </td>
-                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                    <td className="text-left px-4 py-2 text-gray-500 hover:text-orange-500 ">
                       {question}
                     </td>
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
@@ -273,6 +275,7 @@ export default function AllQuizQuestions() {
         </div>
       )}
       <Pagination
+        isLoading={isLoading}
         page={Number(page)}
         perPage={Number(perPage)}
         registeredResultsLength={
