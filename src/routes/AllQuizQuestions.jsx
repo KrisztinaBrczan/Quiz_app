@@ -23,32 +23,36 @@ export default function AllQuizQuestions() {
   const [perPage, setPerPage] = useState(searchParams.get("perPage") || "10");
 
   useEffect(() => {
-    setIsLoading(true);
-    try {
-      if (quizCategory === "Geography" && geographyQuestions.length === 0) {
-        readQuiz(quizCategory).then((questions) => {
+    async function fetchData() {
+      setIsLoading(true);
+      try {
+        if (quizCategory === "Geography" && geographyQuestions.length === 0) {
+          const questions = await readQuiz(quizCategory);
           setGeographyQuestions(questions);
-        });
-      } else if (quizCategory === "History" && historyQuestions.length === 0) {
-        readQuiz(quizCategory).then((questions) => {
+        } else if (
+          quizCategory === "History" &&
+          historyQuestions.length === 0
+        ) {
+          const questions = await readQuiz(quizCategory);
           setHistoryQuestions(questions);
-        });
-      } else if (
-        quizCategory === "Literature" &&
-        literatureQuestions.length === 0
-      ) {
-        readQuiz(quizCategory).then((questions) => {
+        } else if (
+          quizCategory === "Literature" &&
+          literatureQuestions.length === 0
+        ) {
+          const questions = await readQuiz(quizCategory);
           setLiteratureQuestions(questions);
-        });
-      } else if (quizCategory === "Movies" && moviesQuestions.length === 0) {
-        readQuiz(quizCategory).then((questions) => {
+        } else if (quizCategory === "Movies" && moviesQuestions.length === 0) {
+          const questions = await readQuiz(quizCategory);
           setMoviesQuestions(questions);
-        });
+        }
+      } catch (error) {
+        console.log("An error occurred during fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
-    } catch (error) {
-      console.log("An error occured during fetching data:", error);
     }
+
+    fetchData();
   }, [quizCategory]);
 
   useEffect(() => {
@@ -216,17 +220,20 @@ export default function AllQuizQuestions() {
             </thead>
             <tbody>
               {croppedResults.map(
-                ({
-                  id,
-                  question,
-                  answerA,
-                  answerB,
-                  answerC,
-                  answerD,
-                  correctAnswer,
-                  isDefault,
-                  category,
-                }) => (
+                (
+                  {
+                    id,
+                    question,
+                    answerA,
+                    answerB,
+                    answerC,
+                    answerD,
+                    correctAnswer,
+                    isDefault,
+                    category,
+                  },
+                  index
+                ) => (
                   <tr key={id}>
                     <td className="text-left px-4 py-2 text-gray-500 hover:text-orange-500 ">
                       {question}
@@ -252,9 +259,7 @@ export default function AllQuizQuestions() {
                         className="hover:fill-orange-600 hover:cursor-pointer"
                         src={pencilSVG}
                         alt="pencil"
-                        // onClick={() =>
-                        //   handleQuestionDelete(id, category, isDefault)
-                        // }
+                        onClick={() => console.log("ezmiez", index)}
                       />
                     </td>
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
