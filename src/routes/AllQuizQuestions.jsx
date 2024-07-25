@@ -6,6 +6,8 @@ import { useSearchParams } from "react-router-dom";
 import TableFilter from "../Components/TableFilter";
 import Pagination from "../Components/Pagination";
 import trashcanSVG from "../assets/trashcan.svg";
+import pencilSVG from "../assets/pencil.svg";
+import deleteQuiz from "../Services/deleteQuiz";
 
 export default function AllQuizQuestions() {
   const [isLoading, setIsLoading] = useState(false);
@@ -82,6 +84,47 @@ export default function AllQuizQuestions() {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("perPage", String(newPerPage));
     newSearchParams.set("page", "1"), setSearchParams(newSearchParams);
+  }
+
+  function handleQuestionDelete(id, category, isDefault) {
+    if (isDefault) {
+      alert("Created by admin, cannot be deleted.");
+      return;
+    }
+
+    console.log("ennek kell törlődnie: ", id, category);
+
+    if (category === "Geography") {
+      deleteQuiz(category, id).then(() => {
+        setGeographyQuestions(
+          geographyQuestions.filter((question) => question.id !== id)
+        );
+      });
+    }
+
+    if (category === "History") {
+      deleteQuiz(category, id).then(() => {
+        setHistoryQuestions(
+          historyQuestions.filter((question) => question.id !== id)
+        );
+      });
+    }
+
+    if (category === "Literature") {
+      deleteQuiz(category, id).then(() => {
+        setLiteratureQuestions(
+          literatureQuestions.filter((question) => question.id !== id)
+        );
+      });
+    }
+
+    if (category === "Movies") {
+      deleteQuiz(category, id).then(() => {
+        setMoviesQuestions(
+          moviesQuestions.filter((question) => question.id !== id)
+        );
+      });
+    }
   }
 
   return (
@@ -177,6 +220,7 @@ export default function AllQuizQuestions() {
                   answerD,
                   correctAnswer,
                   isDefault,
+                  category,
                 }) => (
                   <tr key={id}>
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
@@ -202,13 +246,23 @@ export default function AllQuizQuestions() {
                       {correctAnswer}
                     </td>
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                      <span className="hover:cursor-pointer">cerka</span>
+                      <img
+                        className="hover:fill-orange-600 hover:cursor-pointer"
+                        src={pencilSVG}
+                        alt="pencil"
+                        // onClick={() =>
+                        //   handleQuestionDelete(id, category, isDefault)
+                        // }
+                      />
                     </td>
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
                       <img
                         className="hover:fill-orange-600 hover:cursor-pointer"
                         src={trashcanSVG}
                         alt="trashcan"
+                        onClick={() =>
+                          handleQuestionDelete(id, category, isDefault)
+                        }
                       />
                     </td>
                   </tr>
