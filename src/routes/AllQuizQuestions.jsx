@@ -8,6 +8,7 @@ import Pagination from "../Components/Pagination";
 import trashcanSVG from "../assets/trashcan.svg";
 import pencilSVG from "../assets/pencil.svg";
 import deleteQuiz from "../Services/deleteQuiz";
+import { Link } from "react-router-dom";
 
 export default function AllQuizQuestions() {
   const [isLoading, setIsLoading] = useState(false);
@@ -74,8 +75,6 @@ export default function AllQuizQuestions() {
       ? moviesQuestions.slice(start, end)
       : [];
 
-  console.log("croppedresults ", croppedResults);
-
   function handlePageChange(newPage) {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("page", String(newPage));
@@ -94,8 +93,6 @@ export default function AllQuizQuestions() {
       alert("Created by admin, cannot be deleted.");
       return;
     }
-
-    console.log("ennek kell törlődnie: ", id, category);
 
     if (category === "Geography") {
       deleteQuiz(category, id).then(() => {
@@ -139,7 +136,7 @@ export default function AllQuizQuestions() {
 
   return (
     <>
-      <Header />
+      <Header isAllQuestionPage={true} />
       <div className="flex justify-center">
         <h1
           className="flex flex-col space-y-4 text-5xl text-center"
@@ -255,12 +252,14 @@ export default function AllQuizQuestions() {
                       {correctAnswer}
                     </td>
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                      <img
-                        className="hover:fill-orange-600 hover:cursor-pointer"
-                        src={pencilSVG}
-                        alt="pencil"
-                        onClick={() => console.log("ezmiez", index)}
-                      />
+                      <Link to={`/create-quiz/${id}/${category}/edit`}>
+                        <img
+                          className="hover:fill-orange-600 hover:cursor-pointer"
+                          src={pencilSVG}
+                          alt="pencil"
+                          onClick={() => handleEdit(index)}
+                        />
+                      </Link>
                     </td>
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
                       <img

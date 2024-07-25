@@ -3,6 +3,7 @@ import createQuiz from "../Services/createQuiz";
 import warningSvg from "../assets/warning.svg";
 import Header from "../Components/Header";
 import { useNavigate } from "react-router";
+import updateQuiz from "../Services/updateQuiz";
 
 const initialQuizValues = {
   question: "",
@@ -15,8 +16,8 @@ const initialQuizValues = {
   isDefault: false,
 };
 
-export default function CreateQuiz() {
-  const [formData, setFormData] = useState(initialQuizValues);
+export default function CreateQuiz({ isUnderUpdating, quizToAmend }) {
+  const [formData, setFormData] = useState(quizToAmend || initialQuizValues);
   const [error, setError] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -71,13 +72,11 @@ export default function CreateQuiz() {
 
     if (Object.keys(formValidationErrors).length === 0) {
       setIsLoading(true);
-      try {
-        const docId = await createQuiz(formData.category, formData);
-        console.log(docId);
-        setFormData(initialQuizValues);
-      } catch (error) {
-        console.log("Error while creating quiz: ", error);
-      }
+
+      if (quizToAmend)
+        await updateQuiz(formData.category, quizToAmend.id, formData);
+      if (!quizToAmend) await createQuiz(formData.category, formData);
+      setFormData(initialQuizValues);
     }
     setIsLoading(false);
   }
@@ -91,7 +90,7 @@ export default function CreateQuiz() {
           className="flex flex-col space-y-4 text-5xl text-center"
           style={{ padding: "1rem" }}
         >
-          Create quiz
+          {isUnderUpdating ? "Update question" : "Create quiz"}
         </h1>
       </div>
 
@@ -124,9 +123,7 @@ export default function CreateQuiz() {
               }
               disabled={isLoading}
             >
-              <option selected value="">
-                {/* Choose a category... */}
-              </option>
+              <option selected value=""></option>
               <option value="Geography">Geography</option>
               <option value="History">History</option>
               <option value="Literature">Literature</option>
@@ -341,10 +338,14 @@ export default function CreateQuiz() {
             <button
               type="button"
               className="text-gray-700 bg-gray-200 hover:bg-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700"
-              onClick={handleClearForm}
+              onClick={
+                isUnderUpdating
+                  ? () => navigate("/all-quiz-questions")
+                  : handleClearForm
+              }
               disabled={isLoading}
             >
-              Clear
+              {isUnderUpdating ? "Discard" : "Clear"}
             </button>
             <button
               type="submit"
@@ -356,7 +357,10 @@ export default function CreateQuiz() {
           </div>
         </form>
         {/*  */}
-        <div className="flex justify-center mt-5">
+        <div
+          className="flex justify-center mt-5"
+          style={{ display: isUnderUpdating ? "none" : "flex" }}
+        >
           <button
             onClick={() => navigate("/all-quiz-questions")}
             className="text-orange-500 border-2 border-orange-600 hover:text-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:focus:border-orange-500"
@@ -364,8 +368,6 @@ export default function CreateQuiz() {
             List questions
           </button>
         </div>
-
-        {/*  */}
       </div>
     </>
   );
