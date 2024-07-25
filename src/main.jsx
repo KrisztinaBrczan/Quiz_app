@@ -9,6 +9,7 @@ import Leaderboard from "./routes/Leaderboard";
 import PlayQuiz from "./routes/PlayQuiz";
 import AllQuizQuestions from "./routes/AllQuizQuestions";
 import Home from "./routes/Home";
+import UpdateQuiz from "./routes/UpdateQuiz";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,12 @@ const router = createBrowserRouter([
         path: "/create-quiz",
         element: <CreateQuiz />,
       },
+
+      {
+        path: "/create-quiz/:quizId/edit",
+        element: <UpdateQuiz />,
+      },
+
       {
         path: "/all-quiz-questions",
         element: <AllQuizQuestions />,

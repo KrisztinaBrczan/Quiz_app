@@ -15,7 +15,7 @@ const initialQuizValues = {
   isDefault: false,
 };
 
-export default function CreateQuiz() {
+export default function CreateQuiz({ isUnderUpdating }) {
   const [formData, setFormData] = useState(initialQuizValues);
   const [error, setError] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -91,7 +91,8 @@ export default function CreateQuiz() {
           className="flex flex-col space-y-4 text-5xl text-center"
           style={{ padding: "1rem" }}
         >
-          Create quiz
+          {isUnderUpdating ? "Update question" : "Create quiz"}
+          {/* Create quiz */}
         </h1>
       </div>
 
@@ -356,7 +357,10 @@ export default function CreateQuiz() {
           </div>
         </form>
         {/*  */}
-        <div className="flex justify-center mt-5">
+        <div
+          className="flex justify-center mt-5"
+          style={{ display: isUnderUpdating ? "none" : "flex" }}
+        >
           <button
             onClick={() => navigate("/all-quiz-questions")}
             className="text-orange-500 border-2 border-orange-600 hover:text-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:focus:border-orange-500"
