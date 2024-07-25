@@ -136,7 +136,7 @@ export default function AllQuizQuestions() {
 
   return (
     <>
-      <Header />
+      <Header isAllQuestionPage={true} />
       <div className="flex justify-center">
         <h1
           className="flex flex-col space-y-4 text-5xl text-center"
