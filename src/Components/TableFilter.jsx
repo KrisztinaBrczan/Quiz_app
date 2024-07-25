@@ -1,10 +1,18 @@
-export default function TableFilter({ isSearchFielNecessary }) {
+export default function TableFilter({
+  isSearchFielNecessary,
+  perPage,
+  handlePerPageChange,
+}) {
   return (
     <div className="flex justify-between text-orange-500 mb-3">
       <div>
         Show{" "}
         <span>
-          <select className="border border-orange-500 rounded p-2 bg-[rgb(31,41,55)]">
+          <select
+            className="border border-orange-500 rounded p-2 bg-[rgb(31,41,55)]"
+            value={perPage}
+            onChange={handlePerPageChange}
+          >
             <option>10</option>
             <option>25</option>
             <option>50</option>

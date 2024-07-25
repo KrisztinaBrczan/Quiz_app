@@ -3,11 +3,16 @@ import Header from "../Components/Header";
 import readLeaderboard from "../Services/readLeaderboard";
 import TableFilter from "../Components/TableFilter";
 import Loader from "../Components/Loader";
+import { useSearchParams } from "react-router-dom";
+import Pagination from "../Components/Pagination";
 
 export default function Leaderboard() {
   const [registeredResults, setRegisteredResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSearchFielNecessary, setIsSearchFieldNecessary] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [page, setPage] = useState(searchParams.get("page") || "1");
+  const [perPage, setPerPage] = useState(searchParams.get("perPage") || "10");
 
   useEffect(() => {
     try {
@@ -25,7 +30,31 @@ export default function Leaderboard() {
     }
   }, []);
 
-  console.log("registered results:", registeredResults);
+  useEffect(() => {
+    setPage(searchParams.get("page") || "1");
+    setPerPage(searchParams.get("perPage") || "10");
+  }, [searchParams]);
+
+  const start = (Number(page) - 1) * Number(perPage);
+  const end = start + Number(perPage);
+
+  const croppedResults = registeredResults.slice(start, end);
+
+  function handlePageChange(newPage) {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("page", String(newPage));
+    setSearchParams(newSearchParams);
+  }
+  function handlePerPageChange(e) {
+    const newPerPage = e.target.value;
+    console.log("newPerpage:", newPerPage);
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("perPage", String(newPerPage));
+    newSearchParams.set("page", "1"), setSearchParams(newSearchParams);
+  }
+
+  console.log(croppedResults);
+
   return (
     <>
       <Header />
@@ -41,7 +70,11 @@ export default function Leaderboard() {
         <Loader />
       ) : (
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <TableFilter isSearchFielNecessary={isSearchFielNecessary} />
+          <TableFilter
+            isSearchFielNecessary={isSearchFielNecessary}
+            perPage={perPage}
+            handlePerPageChange={handlePerPageChange}
+          />
           <table id="example" className="table-auto w-full">
             <thead className="text-orange-500">
               <tr>
@@ -55,7 +88,7 @@ export default function Leaderboard() {
               </tr>
             </thead>
             <tbody>
-              {registeredResults.map(
+              {croppedResults.map(
                 ({
                   correctAnswer,
                   date,
@@ -98,7 +131,12 @@ export default function Leaderboard() {
           </table>
         </div>
       )}
-      {/*  */}
+      <Pagination
+        page={Number(page)}
+        perPage={Number(perPage)}
+        registeredResultsLength={registeredResults.length}
+        handlePageChange={handlePageChange}
+      />
     </>
   );
 }
