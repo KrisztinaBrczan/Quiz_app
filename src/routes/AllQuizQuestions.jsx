@@ -136,10 +136,6 @@ export default function AllQuizQuestions() {
     setSearchParams(newSearchParams);
   }
 
-  function handleEdit(index) {
-    setEditingsIndex(index);
-  }
-
   return (
     <>
       <Header />
@@ -258,7 +254,7 @@ export default function AllQuizQuestions() {
                       {correctAnswer}
                     </td>
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                      <Link to={`/create-quiz/${id}/edit`}>
+                      <Link to={`/create-quiz/${id}/${category}/edit`}>
                         <img
                           className="hover:fill-orange-600 hover:cursor-pointer"
                           src={pencilSVG}

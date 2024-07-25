@@ -1,12 +1,30 @@
 import { useParams } from "react-router";
-import Header from "../Components/Header";
+
 import CreateQuiz from "./CreateQuiz";
+import { useEffect, useState } from "react";
+import readCurrentQuiz from "../Services/readCurrentQuiz";
 
 export default function UpdateQuiz() {
-  const { todoId } = useParams();
+  const { quizId } = useParams();
+  const { category } = useParams();
+  const [formData, setFormData] = useState({});
+
+  useEffect(() => {
+    readCurrentQuiz(category, quizId).then(setFormData);
+    console.log(formData);
+  }, []);
+
+  console.log("naaa", formData);
+  console.log("categoria", category);
+
   return (
     <>
-      <CreateQuiz isUnderUpdating={true} />
+      {formData.question && (
+        <CreateQuiz
+          isUnderUpdating={true}
+          quizToAmend={{ id: quizId, ...formData }}
+        />
+      )}
     </>
   );
 }

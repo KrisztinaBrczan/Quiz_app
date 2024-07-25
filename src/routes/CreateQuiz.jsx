@@ -3,6 +3,7 @@ import createQuiz from "../Services/createQuiz";
 import warningSvg from "../assets/warning.svg";
 import Header from "../Components/Header";
 import { useNavigate } from "react-router";
+import updateQuiz from "../Services/updateQuiz";
 
 const initialQuizValues = {
   question: "",
@@ -15,8 +16,8 @@ const initialQuizValues = {
   isDefault: false,
 };
 
-export default function CreateQuiz({ isUnderUpdating }) {
-  const [formData, setFormData] = useState(initialQuizValues);
+export default function CreateQuiz({ isUnderUpdating, quizToAmend }) {
+  const [formData, setFormData] = useState(quizToAmend || initialQuizValues);
   const [error, setError] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -71,13 +72,18 @@ export default function CreateQuiz({ isUnderUpdating }) {
 
     if (Object.keys(formValidationErrors).length === 0) {
       setIsLoading(true);
-      try {
-        const docId = await createQuiz(formData.category, formData);
-        console.log(docId);
-        setFormData(initialQuizValues);
-      } catch (error) {
-        console.log("Error while creating quiz: ", error);
-      }
+
+      if (quizToAmend)
+        await updateQuiz(formData.category, quizToAmend.id, formData);
+      if (!quizToAmend) await createQuiz(formData.category, formData);
+
+      // try {
+      //   const docId = await createQuiz(formData.category, formData);
+      //   console.log(docId);
+      //   setFormData(initialQuizValues);
+      // } catch (error) {
+      //   console.log("Error while creating quiz: ", error);
+      // }
     }
     setIsLoading(false);
   }
