@@ -4,6 +4,7 @@ import readLeaderboard from "../Services/readLeaderboard";
 import TableFilter from "../Components/TableFilter";
 import Loader from "../Components/Loader";
 import { useSearchParams } from "react-router-dom";
+import Pagination from "../Components/Pagination";
 
 export default function Leaderboard() {
   const [registeredResults, setRegisteredResults] = useState([]);
@@ -39,18 +40,17 @@ export default function Leaderboard() {
 
   const croppedResults = registeredResults.slice(start, end);
 
+  function handlePageChange(newPage) {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("page", String(newPage));
+    setSearchParams(newSearchParams);
+  }
   function handlePerPageChange(e) {
     const newPerPage = e.target.value;
     console.log("newPerpage:", newPerPage);
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("perPage", String(newPerPage));
     newSearchParams.set("page", "1"), setSearchParams(newSearchParams);
-  }
-
-  function handlePageChange(newPage) {
-    const newSearchParams = URLSearchParams(searchParams);
-    newSearchParams.set("page", String(newPage));
-    setSearchParams(newSearchParams);
   }
 
   console.log(croppedResults);
@@ -88,7 +88,7 @@ export default function Leaderboard() {
               </tr>
             </thead>
             <tbody>
-              {registeredResults.map(
+              {croppedResults.map(
                 ({
                   correctAnswer,
                   date,
@@ -131,7 +131,12 @@ export default function Leaderboard() {
           </table>
         </div>
       )}
-      {/*  */}
+      <Pagination
+        page={Number(page)}
+        perPage={Number(perPage)}
+        registeredResultsLength={registeredResults.length}
+        handlePageChange={handlePageChange}
+      />
     </>
   );
 }
