@@ -5,6 +5,7 @@ import Loader from "../Components/Loader";
 import { useSearchParams } from "react-router-dom";
 import TableFilter from "../Components/TableFilter";
 import Pagination from "../Components/Pagination";
+import trashcanSVG from "../assets/trashcan.svg";
 
 export default function AllQuizQuestions() {
   const [isLoading, setIsLoading] = useState(false);
@@ -201,10 +202,14 @@ export default function AllQuizQuestions() {
                       {correctAnswer}
                     </td>
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                      Amend
+                      <span className="hover:cursor-pointer">cerka</span>
                     </td>
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                      Delete
+                      <img
+                        className="hover:fill-orange-600 hover:cursor-pointer"
+                        src={trashcanSVG}
+                        alt="trashcan"
+                      />
                     </td>
                   </tr>
                 )
