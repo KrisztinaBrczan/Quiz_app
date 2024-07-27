@@ -7,12 +7,15 @@ import TableFilter from "../Components/TableFilter";
 import Pagination from "../Components/Pagination";
 import trashcanSVG from "../assets/trashcan.svg";
 import pencilSVG from "../assets/pencil.svg";
+import LockSvg from "../assets/lock.svg";
 import deleteQuiz from "../Services/deleteQuiz";
 import { Link } from "react-router-dom";
+import CategoryChooser from "../Components/CategoryChooser";
 
 export default function AllQuizQuestions() {
   const [isLoading, setIsLoading] = useState(false);
   const [quizCategory, setQuizCategory] = useState("Geography");
+
   const [geographyQuestions, setGeographyQuestions] = useState([]);
   const [historyQuestions, setHistoryQuestions] = useState([]);
   const [literatureQuestions, setLiteratureQuestions] = useState([]);
@@ -24,6 +27,10 @@ export default function AllQuizQuestions() {
   const [perPage, setPerPage] = useState(searchParams.get("perPage") || "10");
 
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    setQuizCategory(searchParams.get("category") || "Geography");
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -62,6 +69,11 @@ export default function AllQuizQuestions() {
   useEffect(() => {
     setPage(searchParams.get("page") || "1");
     setPerPage(searchParams.get("perPage") || "10");
+    //
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("category", quizCategory);
+    setSearchParams(newSearchParams);
+    //
   }, [searchParams]);
 
   const start = (Number(page) - 1) * Number(perPage);
@@ -81,23 +93,33 @@ export default function AllQuizQuestions() {
   function handlePageChange(newPage) {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("page", String(newPage));
+
     setSearchParams(newSearchParams);
   }
+
   function handlePerPageChange(e) {
     const newPerPage = e.target.value;
     console.log("newPerpage:", newPerPage);
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("perPage", String(newPerPage));
-    newSearchParams.set("page", "1"), setSearchParams(newSearchParams);
+    newSearchParams.set("page", "1");
+
+    setSearchParams(newSearchParams);
   }
 
   function handleQuestionDelete(id, category, isDefault) {
+    let userChoice;
+
     if (isDefault) {
       alert("Created by admin, cannot be deleted.");
       return;
     }
 
-    if (category === "Geography") {
+    if (!isDefault) {
+      userChoice = confirm("Are you sure you want to delete this question?");
+    }
+
+    if (userChoice && category === "Geography") {
       deleteQuiz(category, id).then(() => {
         setGeographyQuestions(
           geographyQuestions.filter((question) => question.id !== id)
@@ -105,7 +127,7 @@ export default function AllQuizQuestions() {
       });
     }
 
-    if (category === "History") {
+    if (userChoice && category === "History") {
       deleteQuiz(category, id).then(() => {
         setHistoryQuestions(
           historyQuestions.filter((question) => question.id !== id)
@@ -113,7 +135,7 @@ export default function AllQuizQuestions() {
       });
     }
 
-    if (category === "Literature") {
+    if (userChoice && category === "Literature") {
       deleteQuiz(category, id).then(() => {
         setLiteratureQuestions(
           literatureQuestions.filter((question) => question.id !== id)
@@ -121,7 +143,7 @@ export default function AllQuizQuestions() {
       });
     }
 
-    if (category === "Movies") {
+    if (userChoice && category === "Movies") {
       deleteQuiz(category, id).then(() => {
         setMoviesQuestions(
           moviesQuestions.filter((question) => question.id !== id)
@@ -131,9 +153,11 @@ export default function AllQuizQuestions() {
   }
 
   function handleCategoryChange(category) {
+    console.log(category);
     setQuizCategory(category);
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("page", "1");
+
     setSearchParams(newSearchParams);
   }
 
@@ -148,53 +172,11 @@ export default function AllQuizQuestions() {
           All quiz questions
         </h1>
       </div>
-      {/*  */}
-      <div className=" text-orange-500 flex justify-center gap-4">
-        <label>
-          <input
-            className="w-4 h-4 text-orange-500 bg-gray-100 border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            type="radio"
-            name="quiz-category"
-            value="Geography"
-            checked={quizCategory === "Geography"}
-            onChange={(e) => handleCategoryChange(e.target.value)}
-          />{" "}
-          Geography
-        </label>
-        <label>
-          <input
-            className="w-4 h-4 text-orange-500 bg-gray-100 border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            type="radio"
-            name="quiz-category"
-            value="History"
-            checked={quizCategory === "History"}
-            onChange={(e) => handleCategoryChange(e.target.value)}
-          />{" "}
-          History
-        </label>
-        <label>
-          <input
-            className="w-4 h-4 text-orange-500 bg-gray-100 border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            type="radio"
-            name="quiz-category"
-            value="Literature"
-            checked={quizCategory === "Literature"}
-            onChange={(e) => handleCategoryChange(e.target.value)}
-          />{" "}
-          Literature
-        </label>
-        <label>
-          <input
-            className="w-4 h-4 text-orange-500 bg-gray-100 border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            type="radio"
-            name="quiz-category"
-            value="Movies"
-            checked={quizCategory === "Movies"}
-            onChange={(e) => handleCategoryChange(e.target.value)}
-          />{" "}
-          Movies
-        </label>
-      </div>
+
+      <CategoryChooser
+        category={quizCategory}
+        handleCategoryChange={handleCategoryChange}
+      />
 
       {isLoading ? (
         <Loader />
@@ -263,18 +245,27 @@ export default function AllQuizQuestions() {
                         {correctAnswer}
                       </td>
                       <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                        <Link to={`/create-quiz/${id}/${category}/edit`}>
+                        {isDefault ? (
                           <img
-                            className="hover:fill-orange-600 hover:cursor-pointer"
-                            src={pencilSVG}
+                            className={"hover:cursor-not-allowed"}
+                            src={LockSvg}
                             alt="pencil"
-                            onClick={() => handleEdit(index)}
                           />
-                        </Link>
+                        ) : (
+                          <Link to={`/create-quiz/${id}/${category}/edit`}>
+                            <img
+                              className={"hover:cursor-pointer"}
+                              src={pencilSVG}
+                              alt="pencil"
+                            />
+                          </Link>
+                        )}
                       </td>
                       <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
                         <img
-                          className="hover:fill-orange-600 hover:cursor-pointer"
+                          className={`hover:${
+                            isDefault ? "cursor-not-allowed" : "cursor-pointer"
+                          }`}
                           src={trashcanSVG}
                           alt="trashcan"
                           onClick={() =>

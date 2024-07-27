@@ -6,6 +6,7 @@ import GameResult from "../Components/GameResult";
 import RegisterResult from "../Components/RegisterResult";
 import createLeaderboard from "../Services/createLeaderboard";
 import { useNavigate } from "react-router";
+import CategoryChooser from "../Components/CategoryChooser";
 
 export default function PlayQuiz() {
   const [gameCategory, setGameCategory] = useState("Geography");
@@ -134,59 +135,12 @@ export default function PlayQuiz() {
     <>
       <Header />
 
-      <div
-        className=" text-orange-500 flex justify-center gap-4"
-        style={{ display: showResult ? "none" : "flex" }}
-      >
-        <label>
-          <input
-            className="w-4 h-4 text-orange-500 bg-gray-100 border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            type="radio"
-            name="quiz-category"
-            value="Geography"
-            checked={gameCategory === "Geography"}
-            onChange={(e) => setGameCategory(e.target.value)}
-            disabled={showGame}
-          />{" "}
-          Geography
-        </label>
-        <label>
-          <input
-            className="w-4 h-4 text-orange-500 bg-gray-100 border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            type="radio"
-            name="quiz-category"
-            value="History"
-            checked={gameCategory === "History"}
-            onChange={(e) => setGameCategory(e.target.value)}
-            disabled={showGame}
-          />{" "}
-          History
-        </label>
-        <label>
-          <input
-            className="w-4 h-4 text-orange-500 bg-gray-100 border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            type="radio"
-            name="quiz-category"
-            value="Literature"
-            checked={gameCategory === "Literature"}
-            onChange={(e) => setGameCategory(e.target.value)}
-            disabled={showGame}
-          />{" "}
-          Literature
-        </label>
-        <label>
-          <input
-            className="w-4 h-4 text-orange-500 bg-gray-100 border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            type="radio"
-            name="quiz-category"
-            value="Movies"
-            checked={gameCategory === "Movies"}
-            onChange={(e) => setGameCategory(e.target.value)}
-            disabled={showGame}
-          />{" "}
-          Movies
-        </label>
-      </div>
+      <CategoryChooser
+        showResult={showResult}
+        category={gameCategory}
+        handleCategoryChange={setGameCategory}
+        showGame={showGame}
+      />
 
       <div className="flex justify-center mt-9">
         <button
