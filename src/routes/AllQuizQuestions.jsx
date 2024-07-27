@@ -56,6 +56,7 @@ export default function AllQuizQuestions() {
     }
 
     fetchData();
+    setSearch("");
   }, [quizCategory]);
 
   useEffect(() => {
@@ -204,6 +205,7 @@ export default function AllQuizQuestions() {
             perPage={perPage}
             handlePerPageChange={handlePerPageChange}
             setSearch={setSearch}
+            search={search}
           />
           <table id="example" className="table-auto w-full">
             <thead className="text-orange-500">
