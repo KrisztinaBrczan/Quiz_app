@@ -146,7 +146,7 @@ export default function PlayQuiz() {
         <button
           onClick={handleGenerateGame}
           disabled={isLoading || showGame}
-          className="text-orange-500 border-2 border-orange-600 hover:text-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:focus:border-orange-500"
+          className="text-orange-500 border-2 border-orange-600 hover:text-orange-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:border-orange-500"
           style={{ display: showResult ? "none" : "flex" }}
         >
           {isLoading ? "Please wait..." : "Start!"}
@@ -155,7 +155,7 @@ export default function PlayQuiz() {
 
       {showGame && (
         <div className="flex items-center justify-center">
-          <div className="w-2/3 h-1/3 p-5 m-3">
+          <div className="w-full max-w-2xl h-auto p-5 m-3">
             <div className="flex justify-between">
               <h1>Category: {gameCategory}</h1>
               <button className="text-orange-600" onClick={handleGameExit}>
@@ -168,9 +168,9 @@ export default function PlayQuiz() {
                 Question {questionIndex + 1}/{gameQuestions.length}
               </h1>
 
-              <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mb-3 ">
+              <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mb-3">
                 <div
-                  className="bg-orange-600 h-2.5 rounded-full "
+                  className="bg-orange-600 h-2.5 rounded-full"
                   style={{
                     width: `${
                       ((questionIndex + 1) / gameQuestions.length) * 100
@@ -178,17 +178,17 @@ export default function PlayQuiz() {
                   }}
                 ></div>
               </div>
-              <div className="flex items-left flex-col gap-4 ">
+              <div className="flex flex-col gap-4">
                 <h2 className="text-orange-500 text-xl">
                   {gameQuestions[questionIndex].question}
                 </h2>
 
-                <div className="grid grid-cols-2 gap-4 p-4">
-                  <label className="flex items-center p-4 border border-orange-500 rounded-lg shadow-md hover:border-orange-600 cursor-pointer transition bg-gray-800  hover: transition hover:bg-gradient-to-r from-gray-700 to-gray-800">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
+                  <label className="flex items-center p-4 border border-orange-500 rounded-lg shadow-md hover:border-orange-600 cursor-pointer transition bg-gray-800 hover:bg-gradient-to-r from-gray-700 to-gray-800">
                     <input
                       type="radio"
                       name="answer"
-                      className="form-radio text-orange-500 ring-2 ring-transparent focus:ring-orange-500 "
+                      className="form-radio text-orange-500 ring-2 ring-transparent focus:ring-orange-500"
                       value={"answerA"}
                       onChange={(e) => setUserSelection(e.target.value)}
                     />
@@ -197,7 +197,7 @@ export default function PlayQuiz() {
                     </span>
                   </label>
 
-                  <label className="flex items-center p-4 border border-orange-500 rounded-lg shadow-md hover:border-orange-600 cursor-pointer transition bg-gray-800  hover: transition hover:bg-gradient-to-r from-gray-700 to-gray-800">
+                  <label className="flex items-center p-4 border border-orange-500 rounded-lg shadow-md hover:border-orange-600 cursor-pointer transition bg-gray-800 hover:bg-gradient-to-r from-gray-700 to-gray-800">
                     <input
                       type="radio"
                       name="answer"
@@ -210,7 +210,7 @@ export default function PlayQuiz() {
                     </span>
                   </label>
 
-                  <label className="flex items-center p-4 border border-orange-500 rounded-lg shadow-md hover:border-orange-600 cursor-pointer transition bg-gray-800  hover: transition hover:bg-gradient-to-r from-gray-700 to-gray-800">
+                  <label className="flex items-center p-4 border border-orange-500 rounded-lg shadow-md hover:border-orange-600 cursor-pointer transition bg-gray-800 hover:bg-gradient-to-r from-gray-700 to-gray-800">
                     <input
                       type="radio"
                       name="answer"
@@ -223,7 +223,7 @@ export default function PlayQuiz() {
                     </span>
                   </label>
 
-                  <label className="flex items-center p-4 border border-orange-500 rounded-lg shadow-md hover:border-orange-600 cursor-pointer transition bg-gray-800  hover: transition hover:bg-gradient-to-r from-gray-700 to-gray-800">
+                  <label className="flex items-center p-4 border border-orange-500 rounded-lg shadow-md hover:border-orange-600 cursor-pointer transition bg-gray-800 hover:bg-gradient-to-r from-gray-700 to-gray-800">
                     <input
                       type="radio"
                       name="answer"
@@ -238,13 +238,14 @@ export default function PlayQuiz() {
                 </div>
               </div>
             </div>
-            <div className="flex justify-between items-center">
+
+            <div className="flex justify-between items-center mt-4">
               <div className="text-orange-500">
                 {minutes} : {seconds}
               </div>
               <button
                 onClick={handleNextQuestion}
-                className="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:border-orange-500"
+                className="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:border-orange-500"
                 disabled={userSelection === "" ? true : false}
               >
                 Next

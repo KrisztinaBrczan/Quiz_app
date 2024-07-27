@@ -66,6 +66,7 @@ export default function Leaderboard() {
           Leaderboard
         </h1>
       </div>
+
       {isLoading ? (
         <Loader />
       ) : (
