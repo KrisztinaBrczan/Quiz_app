@@ -146,7 +146,7 @@ export default function PlayQuiz() {
         <button
           onClick={handleGenerateGame}
           disabled={isLoading || showGame}
-          className="text-orange-500 border-2 border-orange-600 hover:text-orange-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:focus:border-orange-500"
+          className="text-orange-500 border-2 border-orange-600 hover:text-orange-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:border-orange-500"
           style={{ display: showResult ? "none" : "flex" }}
         >
           {isLoading ? "Please wait..." : "Start!"}
