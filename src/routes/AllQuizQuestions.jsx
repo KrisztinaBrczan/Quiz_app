@@ -7,6 +7,7 @@ import TableFilter from "../Components/TableFilter";
 import Pagination from "../Components/Pagination";
 import trashcanSVG from "../assets/trashcan.svg";
 import pencilSVG from "../assets/pencil.svg";
+import LockSvg from "../assets/lock.svg";
 import deleteQuiz from "../Services/deleteQuiz";
 import { Link } from "react-router-dom";
 
@@ -269,13 +270,21 @@ export default function AllQuizQuestions() {
                         {correctAnswer}
                       </td>
                       <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                        <Link to={`/create-quiz/${id}/${category}/edit`}>
+                        {isDefault ? (
                           <img
-                            className={"hover:cursor-pointer"}
-                            src={pencilSVG}
+                            className={"hover:cursor-not-allowed"}
+                            src={LockSvg}
                             alt="pencil"
                           />
-                        </Link>
+                        ) : (
+                          <Link to={`/create-quiz/${id}/${category}/edit`}>
+                            <img
+                              className={"hover:cursor-pointer"}
+                              src={pencilSVG}
+                              alt="pencil"
+                            />
+                          </Link>
+                        )}
                       </td>
                       <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
                         <img
