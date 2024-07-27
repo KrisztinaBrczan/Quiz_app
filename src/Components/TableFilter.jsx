@@ -28,7 +28,9 @@ export default function TableFilter({
           id="searchResult"
           className="bg-[rgb(31,41,55)] text-orange-500 border border-orange-500 rounded p-2 focus:outline-none "
           value={search}
-          onChange={(e) => setSearch(e.target.value.toLowerCase())}
+          onChange={(e) => {
+            setSearch(e.target.value.toLowerCase());
+          }}
         />
       </div>
     </div>

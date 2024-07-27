@@ -13,7 +13,7 @@ const initialQuizValues = {
   answerC: "",
   answerD: "",
   correctAnswer: "",
-  isDefault: false,
+  isDefault: true,
 };
 
 export default function CreateQuiz({ isUnderUpdating, quizToAmend }) {
