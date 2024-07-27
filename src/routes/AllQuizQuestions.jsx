@@ -92,12 +92,18 @@ export default function AllQuizQuestions() {
   }
 
   function handleQuestionDelete(id, category, isDefault) {
+    let userChoice;
+
     if (isDefault) {
       alert("Created by admin, cannot be deleted.");
       return;
     }
 
-    if (category === "Geography") {
+    if (!isDefault) {
+      userChoice = confirm("Are you sure you want to delete this question?");
+    }
+
+    if (userChoice && category === "Geography") {
       deleteQuiz(category, id).then(() => {
         setGeographyQuestions(
           geographyQuestions.filter((question) => question.id !== id)
@@ -105,7 +111,7 @@ export default function AllQuizQuestions() {
       });
     }
 
-    if (category === "History") {
+    if (userChoice && category === "History") {
       deleteQuiz(category, id).then(() => {
         setHistoryQuestions(
           historyQuestions.filter((question) => question.id !== id)
@@ -113,7 +119,7 @@ export default function AllQuizQuestions() {
       });
     }
 
-    if (category === "Literature") {
+    if (userChoice && category === "Literature") {
       deleteQuiz(category, id).then(() => {
         setLiteratureQuestions(
           literatureQuestions.filter((question) => question.id !== id)
@@ -121,7 +127,7 @@ export default function AllQuizQuestions() {
       });
     }
 
-    if (category === "Movies") {
+    if (userChoice && category === "Movies") {
       deleteQuiz(category, id).then(() => {
         setMoviesQuestions(
           moviesQuestions.filter((question) => question.id !== id)
@@ -265,16 +271,17 @@ export default function AllQuizQuestions() {
                       <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
                         <Link to={`/create-quiz/${id}/${category}/edit`}>
                           <img
-                            className="hover:fill-orange-600 hover:cursor-pointer"
+                            className={"hover:cursor-pointer"}
                             src={pencilSVG}
                             alt="pencil"
-                            onClick={() => handleEdit(index)}
                           />
                         </Link>
                       </td>
                       <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
                         <img
-                          className="hover:fill-orange-600 hover:cursor-pointer"
+                          className={`hover:${
+                            isDefault ? "cursor-not-allowed" : "cursor-pointer"
+                          }`}
                           src={trashcanSVG}
                           alt="trashcan"
                           onClick={() =>
