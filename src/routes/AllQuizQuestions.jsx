@@ -15,6 +15,7 @@ import CategoryChooser from "../Components/CategoryChooser";
 export default function AllQuizQuestions() {
   const [isLoading, setIsLoading] = useState(false);
   const [quizCategory, setQuizCategory] = useState("Geography");
+
   const [geographyQuestions, setGeographyQuestions] = useState([]);
   const [historyQuestions, setHistoryQuestions] = useState([]);
   const [literatureQuestions, setLiteratureQuestions] = useState([]);
@@ -26,6 +27,10 @@ export default function AllQuizQuestions() {
   const [perPage, setPerPage] = useState(searchParams.get("perPage") || "10");
 
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    setQuizCategory(searchParams.get("category") || "Geography");
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -64,6 +69,11 @@ export default function AllQuizQuestions() {
   useEffect(() => {
     setPage(searchParams.get("page") || "1");
     setPerPage(searchParams.get("perPage") || "10");
+    //
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("category", quizCategory);
+    setSearchParams(newSearchParams);
+    //
   }, [searchParams]);
 
   const start = (Number(page) - 1) * Number(perPage);
@@ -83,14 +93,18 @@ export default function AllQuizQuestions() {
   function handlePageChange(newPage) {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("page", String(newPage));
+
     setSearchParams(newSearchParams);
   }
+
   function handlePerPageChange(e) {
     const newPerPage = e.target.value;
     console.log("newPerpage:", newPerPage);
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("perPage", String(newPerPage));
-    newSearchParams.set("page", "1"), setSearchParams(newSearchParams);
+    newSearchParams.set("page", "1");
+
+    setSearchParams(newSearchParams);
   }
 
   function handleQuestionDelete(id, category, isDefault) {
@@ -139,9 +153,11 @@ export default function AllQuizQuestions() {
   }
 
   function handleCategoryChange(category) {
+    console.log(category);
     setQuizCategory(category);
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("page", "1");
+
     setSearchParams(newSearchParams);
   }
 
