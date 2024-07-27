@@ -2,6 +2,7 @@ export default function TableFilter({
   isSearchFielNecessary,
   perPage,
   handlePerPageChange,
+  setSearch,
 }) {
   return (
     <div className="flex justify-between text-orange-500 mb-3">
@@ -25,6 +26,7 @@ export default function TableFilter({
         <input
           id="searchResult"
           className="bg-[rgb(31,41,55)] text-orange-500 border border-orange-500 rounded p-2 focus:outline-none "
+          onChange={(e) => setSearch(e.target.value.toLowerCase())}
         />
       </div>
     </div>
