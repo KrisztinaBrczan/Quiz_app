@@ -10,6 +10,7 @@ import pencilSVG from "../assets/pencil.svg";
 import LockSvg from "../assets/lock.svg";
 import deleteQuiz from "../Services/deleteQuiz";
 import { Link } from "react-router-dom";
+import CategoryChooser from "../Components/CategoryChooser";
 
 export default function AllQuizQuestions() {
   const [isLoading, setIsLoading] = useState(false);
@@ -155,53 +156,11 @@ export default function AllQuizQuestions() {
           All quiz questions
         </h1>
       </div>
-      {/*  */}
-      <div className=" text-orange-500 flex justify-center gap-4">
-        <label>
-          <input
-            className="w-4 h-4 text-orange-500 bg-gray-100 border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            type="radio"
-            name="quiz-category"
-            value="Geography"
-            checked={quizCategory === "Geography"}
-            onChange={(e) => handleCategoryChange(e.target.value)}
-          />{" "}
-          Geography
-        </label>
-        <label>
-          <input
-            className="w-4 h-4 text-orange-500 bg-gray-100 border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            type="radio"
-            name="quiz-category"
-            value="History"
-            checked={quizCategory === "History"}
-            onChange={(e) => handleCategoryChange(e.target.value)}
-          />{" "}
-          History
-        </label>
-        <label>
-          <input
-            className="w-4 h-4 text-orange-500 bg-gray-100 border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            type="radio"
-            name="quiz-category"
-            value="Literature"
-            checked={quizCategory === "Literature"}
-            onChange={(e) => handleCategoryChange(e.target.value)}
-          />{" "}
-          Literature
-        </label>
-        <label>
-          <input
-            className="w-4 h-4 text-orange-500 bg-gray-100 border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            type="radio"
-            name="quiz-category"
-            value="Movies"
-            checked={quizCategory === "Movies"}
-            onChange={(e) => handleCategoryChange(e.target.value)}
-          />{" "}
-          Movies
-        </label>
-      </div>
+
+      <CategoryChooser
+        category={quizCategory}
+        handleCategoryChange={handleCategoryChange}
+      />
 
       {isLoading ? (
         <Loader />
