@@ -23,6 +23,8 @@ export default function AllQuizQuestions() {
   const [page, setPage] = useState(searchParams.get("page") || "1");
   const [perPage, setPerPage] = useState(searchParams.get("perPage") || "10");
 
+  const [search, setSearch] = useState("");
+
   useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
@@ -54,6 +56,7 @@ export default function AllQuizQuestions() {
     }
 
     fetchData();
+    setSearch("");
   }, [quizCategory]);
 
   useEffect(() => {
@@ -201,6 +204,8 @@ export default function AllQuizQuestions() {
             isSearchFielNecessary={isSearchFielNecessary}
             perPage={perPage}
             handlePerPageChange={handlePerPageChange}
+            setSearch={setSearch}
+            search={search}
           />
           <table id="example" className="table-auto w-full">
             <thead className="text-orange-500">
@@ -216,64 +221,70 @@ export default function AllQuizQuestions() {
               </tr>
             </thead>
             <tbody>
-              {croppedResults.map(
-                (
-                  {
-                    id,
-                    question,
-                    answerA,
-                    answerB,
-                    answerC,
-                    answerD,
-                    correctAnswer,
-                    isDefault,
-                    category,
-                  },
-                  index
-                ) => (
-                  <tr key={id}>
-                    <td className="text-left px-4 py-2 text-gray-500 hover:text-orange-500 ">
-                      {question}
-                    </td>
-                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                      {answerA}
-                    </td>
-                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                      {" "}
-                      {answerB}
-                    </td>
-                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                      {answerC}
-                    </td>
-                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                      {answerD}
-                    </td>
-                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                      {correctAnswer}
-                    </td>
-                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                      <Link to={`/create-quiz/${id}/${category}/edit`}>
+              {croppedResults
+                .filter((currentQuiz) => {
+                  return Object.values(currentQuiz).some((value) =>
+                    value.toString().toLowerCase().includes(search)
+                  );
+                })
+                .map(
+                  (
+                    {
+                      id,
+                      question,
+                      answerA,
+                      answerB,
+                      answerC,
+                      answerD,
+                      correctAnswer,
+                      isDefault,
+                      category,
+                    },
+                    index
+                  ) => (
+                    <tr key={id}>
+                      <td className="text-left px-4 py-2 text-gray-500 hover:text-orange-500 ">
+                        {question}
+                      </td>
+                      <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                        {answerA}
+                      </td>
+                      <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                        {" "}
+                        {answerB}
+                      </td>
+                      <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                        {answerC}
+                      </td>
+                      <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                        {answerD}
+                      </td>
+                      <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                        {correctAnswer}
+                      </td>
+                      <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                        <Link to={`/create-quiz/${id}/${category}/edit`}>
+                          <img
+                            className="hover:fill-orange-600 hover:cursor-pointer"
+                            src={pencilSVG}
+                            alt="pencil"
+                            onClick={() => handleEdit(index)}
+                          />
+                        </Link>
+                      </td>
+                      <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
                         <img
                           className="hover:fill-orange-600 hover:cursor-pointer"
-                          src={pencilSVG}
-                          alt="pencil"
-                          onClick={() => handleEdit(index)}
+                          src={trashcanSVG}
+                          alt="trashcan"
+                          onClick={() =>
+                            handleQuestionDelete(id, category, isDefault)
+                          }
                         />
-                      </Link>
-                    </td>
-                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                      <img
-                        className="hover:fill-orange-600 hover:cursor-pointer"
-                        src={trashcanSVG}
-                        alt="trashcan"
-                        onClick={() =>
-                          handleQuestionDelete(id, category, isDefault)
-                        }
-                      />
-                    </td>
-                  </tr>
-                )
-              )}
+                      </td>
+                    </tr>
+                  )
+                )}
             </tbody>
           </table>
         </div>
