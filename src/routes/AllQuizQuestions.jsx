@@ -11,6 +11,7 @@ import LockSvg from "../assets/lock.svg";
 import deleteQuiz from "../Services/deleteQuiz";
 import { Link } from "react-router-dom";
 import CategoryChooser from "../Components/CategoryChooser";
+import Footer from "../Components/Footer";
 
 export default function AllQuizQuestions() {
   const [isLoading, setIsLoading] = useState(false);
@@ -299,6 +300,7 @@ export default function AllQuizQuestions() {
         }
         handlePageChange={handlePageChange}
       />
+      <Footer />
     </>
   );
 }

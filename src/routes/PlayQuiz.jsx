@@ -7,6 +7,7 @@ import RegisterResult from "../Components/RegisterResult";
 import createLeaderboard from "../Services/createLeaderboard";
 import { useNavigate } from "react-router";
 import CategoryChooser from "../Components/CategoryChooser";
+import Footer from "../Components/Footer";
 
 export default function PlayQuiz() {
   const [gameCategory, setGameCategory] = useState("Geography");
@@ -270,6 +271,7 @@ export default function PlayQuiz() {
           isLoading={isLoading}
         />
       )}
+      <Footer />
     </>
   );
 }
