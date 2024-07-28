@@ -5,6 +5,7 @@ import TableFilter from "../Components/TableFilter";
 import Loader from "../Components/Loader";
 import { useSearchParams } from "react-router-dom";
 import Pagination from "../Components/Pagination";
+import Footer from "../Components/Footer";
 
 export default function Leaderboard() {
   const [registeredResults, setRegisteredResults] = useState([]);
@@ -139,6 +140,7 @@ export default function Leaderboard() {
         registeredResultsLength={registeredResults.length}
         handlePageChange={handlePageChange}
       />
+      <Footer />
     </>
   );
 }

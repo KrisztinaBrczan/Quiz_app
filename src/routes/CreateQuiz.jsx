@@ -4,6 +4,7 @@ import warningSvg from "../assets/warning.svg";
 import Header from "../Components/Header";
 import { useNavigate } from "react-router";
 import updateQuiz from "../Services/updateQuiz";
+import Footer from "../Components/Footer";
 
 const initialQuizValues = {
   question: "",
@@ -348,6 +349,7 @@ export default function CreateQuiz({ isUnderUpdating, quizToAmend }) {
           List questions
         </button>
       </div>
+      <Footer />
     </>
   );
 }
