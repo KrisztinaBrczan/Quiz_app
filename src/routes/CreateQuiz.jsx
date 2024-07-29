@@ -222,7 +222,7 @@ export default function CreateQuiz({ isUnderUpdating, quizToAmend }) {
               type="text"
               name="repeat_text"
               id="floating_repeat_text"
-              className="block py-2.5 md:py-5 lg:py-3.5 xl:py-6 2xl:py-3 px-0 w-full font-bold text-sm xl:text-xl 2xl:text-xl 2xl:text-sm  text-orange-500 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
+              className="block py-2.5 md:py-5 lg:py-3.5 xl:py-6 2xl:py-3 px-0 w-full font-bold text-sm xl:text-xl 2xl:text-sm 2xl:text-sm  text-orange-500 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
               required
               value={formData.answerC}
