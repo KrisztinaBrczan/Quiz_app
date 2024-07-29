@@ -85,32 +85,27 @@ export default function AllQuizQuestions() {
       const newSearchParams = new URLSearchParams(searchParams);
       newSearchParams.set("page", "1");
       setSearchParams(newSearchParams);
+      //
+      setPerPage(searchParams.get("perPage"));
     }
   }, [search]);
 
   const start = (Number(page) - 1) * Number(perPage);
   const end = start + Number(perPage);
 
-  function getCroppedResults() {
+  function getFilteredResults() {
     if (search !== "") {
-      return questionCategories[quizCategory]
-        .filter((currentQuiz) => {
-          return Object.values(currentQuiz).some((value) =>
-            value.toString().toLowerCase().includes(search)
-          );
-        })
-        .slice(0, questionCategories[quizCategory].length);
-    }
-    return questionCategories[quizCategory]
-      .slice(start, end)
-      .filter((currentQuiz) => {
+      return questionCategories[quizCategory].filter((currentQuiz) => {
         return Object.values(currentQuiz).some((value) =>
           value.toString().toLowerCase().includes(search)
         );
       });
+    }
+    return questionCategories[quizCategory];
   }
 
-  let croppedResults = getCroppedResults();
+  const filteredResults = getFilteredResults();
+  const croppedResults = filteredResults.slice(start, end);
 
   console.log("Jelenlegi croppedresult", croppedResults);
 
@@ -160,6 +155,12 @@ export default function AllQuizQuestions() {
 
     setSearchParams(newSearchParams);
   }
+
+  console.log(
+    `Na ezek lettek: page: ${page}, perPage: ${perPage}, totál oldal: ${
+      filteredResults.length / perPage
+    }`
+  );
 
   return (
     <>
@@ -280,11 +281,7 @@ export default function AllQuizQuestions() {
         isLoading={isLoading}
         page={Number(page)}
         perPage={Number(perPage)}
-        registeredResultsLength={
-          search
-            ? croppedResults.length || 1
-            : questionCategories[quizCategory].length
-        }
+        registeredResultsLength={filteredResults.length}
         handlePageChange={handlePageChange}
       />
       <Footer />
