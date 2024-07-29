@@ -82,11 +82,14 @@ export default function AllQuizQuestions() {
   useEffect(() => {
     if (search !== "") {
       setPage("1");
+
+      setPerPage("10");
+
       const newSearchParams = new URLSearchParams(searchParams);
       newSearchParams.set("page", "1");
+      newSearchParams.set("perPage", "10");
+
       setSearchParams(newSearchParams);
-      //
-      setPerPage(searchParams.get("perPage"));
     }
   }, [search]);
 

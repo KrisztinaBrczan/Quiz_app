@@ -222,7 +222,7 @@ export default function CreateQuiz({ isUnderUpdating, quizToAmend }) {
               type="text"
               name="repeat_text"
               id="floating_repeat_text"
-              className="block py-2.5 md:py-5 lg:py-3.5 xl:py-6 2xl:py-3 px-0 w-full font-bold text-sm xl:text-xl 2xl:text-xl 2xl:text-sm  text-orange-500 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
+              className="block py-2.5 md:py-5 lg:py-3.5 xl:py-6 2xl:py-3 px-0 w-full font-bold text-sm xl:text-xl 2xl:text-sm 2xl:text-sm  text-orange-500 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
               placeholder=" "
               required
               value={formData.answerC}
@@ -347,10 +347,7 @@ export default function CreateQuiz({ isUnderUpdating, quizToAmend }) {
           </div>
         </form>
         {/*  */}
-        <div
-          className="flex justify-center "
-          style={{ display: isUnderUpdating ? "none" : "flex" }}
-        >
+        <div className="flex justify-center ">
           <button
             onClick={() => navigate("/all-quiz-questions")}
             className="mb-2 text-orange-500 border-2 border-orange-600 hover:text-orange-600 font-medium rounded-lg text-sm md:text-xl xl:text-2xl 2xl:text-sm  lg:text-base sm:w-auto px-5 py-2.5 text-center dark:focus:border-orange-500 "
