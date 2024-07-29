@@ -29,6 +29,20 @@ export default function AllQuizQuestions() {
 
   const [search, setSearch] = useState("");
 
+  const questionCategories = {
+    Geography: geographyQuestions,
+    History: historyQuestions,
+    Literature: literatureQuestions,
+    Movies: moviesQuestions,
+  };
+
+  const setQuestionFunctions = {
+    Geography: setGeographyQuestions,
+    History: setHistoryQuestions,
+    Literature: setLiteratureQuestions,
+    Movies: setMoviesQuestions,
+  };
+
   useEffect(() => {
     setQuizCategory(searchParams.get("category") || "Geography");
   }, []);
@@ -37,24 +51,9 @@ export default function AllQuizQuestions() {
     async function fetchData() {
       setIsLoading(true);
       try {
-        if (quizCategory === "Geography" && geographyQuestions.length === 0) {
+        if (questionCategories[quizCategory].length === 0) {
           const questions = await readQuiz(quizCategory);
-          setGeographyQuestions(questions);
-        } else if (
-          quizCategory === "History" &&
-          historyQuestions.length === 0
-        ) {
-          const questions = await readQuiz(quizCategory);
-          setHistoryQuestions(questions);
-        } else if (
-          quizCategory === "Literature" &&
-          literatureQuestions.length === 0
-        ) {
-          const questions = await readQuiz(quizCategory);
-          setLiteratureQuestions(questions);
-        } else if (quizCategory === "Movies" && moviesQuestions.length === 0) {
-          const questions = await readQuiz(quizCategory);
-          setMoviesQuestions(questions);
+          setQuestionFunctions[quizCategory](questions);
         }
       } catch (error) {
         console.log("An error occurred during fetching data:", error);
@@ -65,31 +64,55 @@ export default function AllQuizQuestions() {
 
     fetchData();
     setSearch("");
+
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("category", quizCategory);
+    setSearchParams(newSearchParams);
   }, [quizCategory]);
 
   useEffect(() => {
     setPage(searchParams.get("page") || "1");
     setPerPage(searchParams.get("perPage") || "10");
-    //
+
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("category", quizCategory);
     setSearchParams(newSearchParams);
-    //
   }, [searchParams]);
+
+  useEffect(() => {
+    if (search !== "") {
+      setPage("1");
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.set("page", "1");
+      setSearchParams(newSearchParams);
+    }
+  }, [search]);
 
   const start = (Number(page) - 1) * Number(perPage);
   const end = start + Number(perPage);
 
-  const croppedResults =
-    quizCategory === "Geography"
-      ? geographyQuestions.slice(start, end)
-      : quizCategory === "History"
-      ? historyQuestions.slice(start, end)
-      : quizCategory === "Literature"
-      ? literatureQuestions.slice(start, end)
-      : quizCategory === "Movies"
-      ? moviesQuestions.slice(start, end)
-      : [];
+  function getCroppedResults() {
+    if (search !== "") {
+      return questionCategories[quizCategory]
+        .filter((currentQuiz) => {
+          return Object.values(currentQuiz).some((value) =>
+            value.toString().toLowerCase().includes(search)
+          );
+        })
+        .slice(0, questionCategories[quizCategory].length);
+    }
+    return questionCategories[quizCategory]
+      .slice(start, end)
+      .filter((currentQuiz) => {
+        return Object.values(currentQuiz).some((value) =>
+          value.toString().toLowerCase().includes(search)
+        );
+      });
+  }
+
+  let croppedResults = getCroppedResults();
+
+  console.log("Jelenlegi croppedresult", croppedResults);
 
   function handlePageChange(newPage) {
     const newSearchParams = new URLSearchParams(searchParams);
@@ -120,34 +143,10 @@ export default function AllQuizQuestions() {
       userChoice = confirm("Are you sure you want to delete this question?");
     }
 
-    if (userChoice && category === "Geography") {
+    if (userChoice) {
       deleteQuiz(category, id).then(() => {
-        setGeographyQuestions(
-          geographyQuestions.filter((question) => question.id !== id)
-        );
-      });
-    }
-
-    if (userChoice && category === "History") {
-      deleteQuiz(category, id).then(() => {
-        setHistoryQuestions(
-          historyQuestions.filter((question) => question.id !== id)
-        );
-      });
-    }
-
-    if (userChoice && category === "Literature") {
-      deleteQuiz(category, id).then(() => {
-        setLiteratureQuestions(
-          literatureQuestions.filter((question) => question.id !== id)
-        );
-      });
-    }
-
-    if (userChoice && category === "Movies") {
-      deleteQuiz(category, id).then(() => {
-        setMoviesQuestions(
-          moviesQuestions.filter((question) => question.id !== id)
+        setQuestionFunctions[category](
+          questionCategories[category].filter((question) => question.id !== id)
         );
       });
     }
@@ -206,79 +205,73 @@ export default function AllQuizQuestions() {
               </tr>
             </thead>
             <tbody>
-              {croppedResults
-                .filter((currentQuiz) => {
-                  return Object.values(currentQuiz).some((value) =>
-                    value.toString().toLowerCase().includes(search)
-                  );
-                })
-                .map(
-                  (
-                    {
-                      id,
-                      question,
-                      answerA,
-                      answerB,
-                      answerC,
-                      answerD,
-                      correctAnswer,
-                      isDefault,
-                      category,
-                    },
-                    index
-                  ) => (
-                    <tr key={id}>
-                      <td className="text-left px-4 py-2 text-gray-500 hover:text-orange-500 ">
-                        {question}
-                      </td>
-                      <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                        {answerA}
-                      </td>
-                      <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                        {" "}
-                        {answerB}
-                      </td>
-                      <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                        {answerC}
-                      </td>
-                      <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                        {answerD}
-                      </td>
-                      <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                        {correctAnswer}
-                      </td>
-                      <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                        {isDefault ? (
+              {croppedResults.map(
+                (
+                  {
+                    id,
+                    question,
+                    answerA,
+                    answerB,
+                    answerC,
+                    answerD,
+                    correctAnswer,
+                    isDefault,
+                    category,
+                  },
+                  index
+                ) => (
+                  <tr key={id}>
+                    <td className="text-left px-4 py-2 text-gray-500 hover:text-orange-500 ">
+                      {question}
+                    </td>
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                      {answerA}
+                    </td>
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                      {" "}
+                      {answerB}
+                    </td>
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                      {answerC}
+                    </td>
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                      {answerD}
+                    </td>
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                      {correctAnswer}
+                    </td>
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                      {isDefault ? (
+                        <img
+                          className={"hover:cursor-not-allowed"}
+                          src={LockSvg}
+                          alt="pencil"
+                        />
+                      ) : (
+                        <Link to={`/create-quiz/${id}/${category}/edit`}>
                           <img
-                            className={"hover:cursor-not-allowed"}
-                            src={LockSvg}
+                            className={"hover:cursor-pointer"}
+                            src={pencilSVG}
                             alt="pencil"
                           />
-                        ) : (
-                          <Link to={`/create-quiz/${id}/${category}/edit`}>
-                            <img
-                              className={"hover:cursor-pointer"}
-                              src={pencilSVG}
-                              alt="pencil"
-                            />
-                          </Link>
-                        )}
-                      </td>
-                      <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
-                        <img
-                          className={`hover:${
-                            isDefault ? "cursor-not-allowed" : "cursor-pointer"
-                          }`}
-                          src={trashcanSVG}
-                          alt="trashcan"
-                          onClick={() =>
-                            handleQuestionDelete(id, category, isDefault)
-                          }
-                        />
-                      </td>
-                    </tr>
-                  )
-                )}
+                        </Link>
+                      )}
+                    </td>
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                      <img
+                        className={`hover:${
+                          isDefault ? "cursor-not-allowed" : "cursor-pointer"
+                        }`}
+                        src={trashcanSVG}
+                        alt="trashcan"
+                        onClick={() =>
+                          handleQuestionDelete(id, category, isDefault)
+                        }
+                      />
+                    </td>
+                  </tr>
+                )
+              )}
             </tbody>
           </table>
         </div>
@@ -288,15 +281,9 @@ export default function AllQuizQuestions() {
         page={Number(page)}
         perPage={Number(perPage)}
         registeredResultsLength={
-          quizCategory === "Geography"
-            ? geographyQuestions.length
-            : quizCategory === "History"
-            ? historyQuestions.length
-            : quizCategory === "Literature"
-            ? literatureQuestions.length
-            : quizCategory === "Movies"
-            ? moviesQuestions.length
-            : 0
+          search
+            ? croppedResults.length || 1
+            : questionCategories[quizCategory].length
         }
         handlePageChange={handlePageChange}
       />
