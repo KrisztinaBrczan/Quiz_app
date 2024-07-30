@@ -60,10 +60,7 @@ export default function Leaderboard() {
     <>
       <Header />
       <div className="flex justify-center">
-        <h1
-          className="text-3xl flex flex-col space-y-4 md:text-5xl text-center"
-          // style={{ padding: "1rem" }}
-        >
+        <h1 className="text-3xl flex flex-col space-y-4 md:text-5xl text-center">
           Leaderboard
         </h1>
       </div>

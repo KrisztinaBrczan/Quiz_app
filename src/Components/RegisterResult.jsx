@@ -5,7 +5,7 @@ export default function RegisterResult({
   isLoading,
 }) {
   return (
-    <div className="flex justify-center items-center flex-col">
+    <div className="flex justify-center items-center flex-col ">
       <input
         placeholder="your name"
         value={username}
