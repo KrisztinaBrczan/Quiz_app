@@ -6,6 +6,9 @@ import { useNavigate } from "react-router";
 import updateQuiz from "../Services/updateQuiz";
 import Footer from "../Components/Footer";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const initialQuizValues = {
   question: "",
   category: "",
@@ -23,6 +26,20 @@ export default function CreateQuiz({ isUnderUpdating, quizToAmend }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+
+  const notify = () => {
+    return new Promise((resolve) => {
+      toast(
+        quizToAmend
+          ? "Quiz amended successfully"
+          : "Quiz question successfully created",
+        {
+          autoClose: 3000,
+          onClose: () => resolve(),
+        }
+      );
+    });
+  };
 
   function handleClearForm(e) {
     e.preventDefault();
@@ -82,22 +99,23 @@ export default function CreateQuiz({ isUnderUpdating, quizToAmend }) {
     setIsLoading(false);
   }
 
+  async function handleQuizAmendment() {
+    await notify();
+    quizToAmend && navigate("/all-quiz-questions");
+  }
+
   return (
     <div className=" h-screen">
       <>
         <Header />
 
         <div className="flex justify-center">
-          <h1
-            className="text-3xl flex flex-col space-y-4 md:p-8 md:text-6xl lg:text-4xl lg:py-0 lg:pb-5 xl:text-8xl 2xl:text-4xl xl:py-12 2xl:py-6 text-center"
-            // style={{ padding: "1rem" }}
-          >
+          <h1 className="text-3xl flex flex-col space-y-4 md:p-8 md:text-6xl lg:text-4xl lg:py-0 lg:pb-5 xl:text-8xl 2xl:text-4xl xl:py-12 2xl:py-6 text-center">
             {isUnderUpdating ? "Update question" : "Create quiz"}
           </h1>
         </div>
 
         <form
-          // className="max-w-md mx-auto "
           className="max-w-md mx-auto p-4 sm:p-2 md:p-1 lg:p-1 lg:mx-auto "
           noValidate
           onSubmit={handleQuizCreation}
@@ -341,6 +359,7 @@ export default function CreateQuiz({ isUnderUpdating, quizToAmend }) {
               type="submit"
               className="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm md:text-xl lg:text-base xl:text-2xl 2xl:text-sm  w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:border-orange-500"
               disabled={isLoading}
+              onClick={handleQuizAmendment}
             >
               {isLoading ? "Saving..." : "Save"}
             </button>
@@ -355,6 +374,7 @@ export default function CreateQuiz({ isUnderUpdating, quizToAmend }) {
             List questions
           </button>
         </div>
+        <ToastContainer />
         <Footer />
       </>
     </div>
