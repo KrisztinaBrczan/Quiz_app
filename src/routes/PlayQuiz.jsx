@@ -153,7 +153,7 @@ export default function PlayQuiz() {
           <button
             onClick={handleGenerateGame}
             disabled={isLoading || showGame}
-            className="text-orange-500 border-2 border-orange-600 hover:text-orange-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:border-orange-500"
+            className="text-orange-500 border-2 border-orange-600 hover:text-orange-600 font-medium rounded-lg text-sm sm:text-base  px-5 py-2.5 text-center dark:focus:border-orange-500"
             style={{ display: showResult ? "none" : "flex" }}
           >
             {isLoading ? "Please wait..." : "Start!"}
@@ -163,7 +163,7 @@ export default function PlayQuiz() {
         {showGame && (
           <div className="flex items-center justify-center">
             <div className="w-full max-w-2xl h-auto p-5 m-3">
-              <div className="flex justify-between">
+              <div className="flex justify-between sm:text-base">
                 <h1>Category: {gameCategory}</h1>
                 <button
                   className="text-orange-600"
@@ -175,7 +175,7 @@ export default function PlayQuiz() {
               </div>
 
               <div key={gameQuestions[questionIndex].id}>
-                <h1 className="my-2">
+                <h1 className="my-2 sm:text-base">
                   Question {questionIndex + 1}/{gameQuestions.length}
                 </h1>
 
@@ -190,11 +190,11 @@ export default function PlayQuiz() {
                   ></div>
                 </div>
                 <div className="flex flex-col gap-4">
-                  <h2 className="text-orange-500 text-xl">
+                  <h2 className="text-orange-500 text-base sm:text-lg">
                     {gameQuestions[questionIndex].question}
                   </h2>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 text-sm sm:text-base">
                     <label className="flex items-center p-4 border border-orange-500 rounded-lg shadow-md hover:border-orange-600 cursor-pointer transition bg-gray-800 hover:bg-gradient-to-r from-gray-700 to-gray-800">
                       <input
                         type="radio"
@@ -250,13 +250,13 @@ export default function PlayQuiz() {
                 </div>
               </div>
 
-              <div className="flex justify-between items-center mt-4">
+              <div className="flex justify-between items-center mt-1 mx-4 sm:mt-4">
                 <div className="text-orange-500">
                   {minutes} : {seconds}
                 </div>
                 <button
                   onClick={handleNextQuestion}
-                  className="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:border-orange-500"
+                  className="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm px-4 py-2 sm:px-5 sm:py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:border-orange-500"
                   disabled={userSelection === "" ? true : false}
                 >
                   Next
