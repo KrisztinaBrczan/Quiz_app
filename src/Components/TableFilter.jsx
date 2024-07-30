@@ -6,12 +6,12 @@ export default function TableFilter({
   search,
 }) {
   return (
-    <div className="flex justify-between text-orange-500 mb-3">
+    <div className="flex justify-between text-orange-500 mb-3 text-xs sm:text-base">
       <div>
         Show{" "}
         <span>
           <select
-            className="border border-orange-500 rounded p-2 bg-[rgb(31,41,55)]"
+            className="border border-orange-500 rounded p-2 bg-[rgb(31,41,55)] text-xs sm:text-base"
             value={perPage}
             onChange={handlePerPageChange}
           >
