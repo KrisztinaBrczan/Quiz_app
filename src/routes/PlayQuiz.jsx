@@ -81,13 +81,18 @@ export default function PlayQuiz() {
 
   function handleGameExit(e) {
     e.preventDefault();
-    setShowGame(false);
-    setQuestionIndex(0);
-    setCorrectAnswerCount(0);
-    setShowResult(false);
-    setIsRegisterClicked(false);
-    setMinutes(0);
-    setSeconds(0);
+    const userChoice = confirm("Are you sure you want to exit the game?");
+    if (userChoice) {
+      setShowGame(false);
+      setQuestionIndex(0);
+      setCorrectAnswerCount(0);
+      setShowResult(false);
+      setIsRegisterClicked(false);
+      setMinutes(0);
+      setSeconds(0);
+    } else {
+      return;
+    }
   }
 
   function handlePlayAgain(e) {
@@ -160,7 +165,11 @@ export default function PlayQuiz() {
             <div className="w-full max-w-2xl h-auto p-5 m-3">
               <div className="flex justify-between">
                 <h1>Category: {gameCategory}</h1>
-                <button className="text-orange-600" onClick={handleGameExit}>
+                <button
+                  className="text-orange-600"
+                  onClick={handleGameExit}
+                  title="exit game"
+                >
                   X
                 </button>
               </div>
