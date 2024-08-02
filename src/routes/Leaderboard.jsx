@@ -48,13 +48,11 @@ export default function Leaderboard() {
   }
   function handlePerPageChange(e) {
     const newPerPage = e.target.value;
-    console.log("newPerpage:", newPerPage);
+
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("perPage", String(newPerPage));
     newSearchParams.set("page", "1"), setSearchParams(newSearchParams);
   }
-
-  console.log(croppedResults);
 
   return (
     <>

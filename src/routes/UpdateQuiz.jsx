@@ -11,7 +11,6 @@ export default function UpdateQuiz() {
 
   useEffect(() => {
     readCurrentQuiz(category, quizId).then(setFormData);
-    console.log(formData);
   }, []);
 
   return (
