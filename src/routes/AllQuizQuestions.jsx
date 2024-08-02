@@ -110,8 +110,6 @@ export default function AllQuizQuestions() {
   const filteredResults = getFilteredResults();
   const croppedResults = filteredResults.slice(start, end);
 
-  console.log("Jelenlegi croppedresult", croppedResults);
-
   function handlePageChange(newPage) {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("page", String(newPage));
@@ -121,7 +119,7 @@ export default function AllQuizQuestions() {
 
   function handlePerPageChange(e) {
     const newPerPage = e.target.value;
-    console.log("newPerpage:", newPerPage);
+
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("perPage", String(newPerPage));
     newSearchParams.set("page", "1");
@@ -151,19 +149,12 @@ export default function AllQuizQuestions() {
   }
 
   function handleCategoryChange(category) {
-    console.log(category);
     setQuizCategory(category);
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("page", "1");
 
     setSearchParams(newSearchParams);
   }
-
-  console.log(
-    `Na ezek lettek: page: ${page}, perPage: ${perPage}, totál oldal: ${
-      filteredResults.length / perPage
-    }`
-  );
 
   return (
     <>
