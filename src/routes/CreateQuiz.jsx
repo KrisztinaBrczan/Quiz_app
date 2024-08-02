@@ -95,13 +95,11 @@ export default function CreateQuiz({ isUnderUpdating, quizToAmend }) {
         await updateQuiz(formData.category, quizToAmend.id, formData);
       if (!quizToAmend) await createQuiz(formData.category, formData);
       setFormData(initialQuizValues);
+
+      await notify();
+      quizToAmend && navigate("/all-quiz-questions");
     }
     setIsLoading(false);
-  }
-
-  async function handleQuizAmendment() {
-    await notify();
-    quizToAmend && navigate("/all-quiz-questions");
   }
 
   return (
@@ -359,7 +357,6 @@ export default function CreateQuiz({ isUnderUpdating, quizToAmend }) {
               type="submit"
               className="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm md:text-xl lg:text-base xl:text-2xl 2xl:text-sm  w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:border-orange-500"
               disabled={isLoading}
-              onClick={handleQuizAmendment}
             >
               {isLoading ? "Saving..." : "Save"}
             </button>

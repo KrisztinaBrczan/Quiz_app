@@ -74,7 +74,7 @@ export default function Leaderboard() {
             perPage={perPage}
             handlePerPageChange={handlePerPageChange}
           />
-          <table id="example" className="table-auto ">
+          <table id="example" className="w-full">
             <thead className="text-orange-500">
               <tr>
                 <th className="px-4 py-2">#</th>
@@ -86,7 +86,7 @@ export default function Leaderboard() {
                 <th className="px-4 py-2 hidden sm:table-cell">Date</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="text-xs sm:text-sm">
               {croppedResults.map(
                 ({
                   correctAnswer,
