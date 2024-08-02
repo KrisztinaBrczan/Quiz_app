@@ -56,7 +56,7 @@ export default function AllQuizQuestions() {
           setQuestionFunctions[quizCategory](questions);
         }
       } catch (error) {
-        console.log("An error occurred during fetching data:", error);
+        console.log("An error occurred during fetching data: ", error);
       } finally {
         setIsLoading(false);
       }
