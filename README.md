@@ -1,3 +1,15 @@
+Hosting URL: https://quizapp-8560e.web.app
+
+Technologies used:
+- firebase
+- React
+- Tailwind CSS
+- React Toastify
+
+
+
+
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
