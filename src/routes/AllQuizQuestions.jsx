@@ -192,7 +192,6 @@ export default function AllQuizQuestions() {
             handlePerPageChange={handlePerPageChange}
             setSearch={setSearch}
             search={search}
-            //
             setPerPage={setPerPage}
           />
           <table id="example" className="table-auto w-full">
