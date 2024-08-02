@@ -74,16 +74,16 @@ export default function Leaderboard() {
             perPage={perPage}
             handlePerPageChange={handlePerPageChange}
           />
-          <table id="example" className="table-auto w-full">
+          <table id="example" className="table-auto ">
             <thead className="text-orange-500">
               <tr>
                 <th className="px-4 py-2">#</th>
                 <th className="px-4 py-2">Player</th>
-                <th className="px-4 py-2">Category</th>
+                <th className="px-4 py-2 hidden sm:table-cell">Category</th>
                 <th className="px-4 py-2">Score</th>
-                <th className="px-4 py-2">Percent</th>
+                <th className="px-4 py-2 hidden sm:table-cell">Percent</th>
                 <th className="px-4 py-2">Time taken</th>
-                <th className="px-4 py-2">Date</th>
+                <th className="px-4 py-2 hidden sm:table-cell">Date</th>
               </tr>
             </thead>
             <tbody>
@@ -107,20 +107,20 @@ export default function Leaderboard() {
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
                       {username}
                     </td>
-                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500 hidden sm:table-cell">
                       {category}
                     </td>
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
                       {" "}
                       {correctAnswer}/{questionAmount}
                     </td>
-                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500 hidden sm:table-cell">
                       {percentage} %
                     </td>
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
                       {minutes}:{seconds}
                     </td>
-                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500 hidden sm:table-cell">
                       {date}
                     </td>
                   </tr>
