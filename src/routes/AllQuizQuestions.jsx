@@ -203,14 +203,12 @@ export default function AllQuizQuestions() {
                 <th className="px-4 py-2 hidden lg:table-cell">Answer B</th>
                 <th className="px-4 py-2 hidden lg:table-cell">Answer C</th>
                 <th className="px-4 py-2 hidden lg:table-cell">Answer D</th>
-                <th className="px-4 py-2 hidden lg:table-cell">
-                  Correct Answer
-                </th>
+                <th className="px-4 py-2 ">Correct Answer</th>
                 <th className="px-4 py-2 text-gray-800">.</th>
                 <th className="px-4 py-2 text-gray-800">.</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="text-xs sm:text-sm">
               {croppedResults.map(
                 (
                   {
@@ -243,7 +241,7 @@ export default function AllQuizQuestions() {
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500 hidden lg:table-cell">
                       {answerD}
                     </td>
-                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500 hidden lg:table-cell">
+                    <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500 ">
                       {correctAnswer}
                     </td>
                     <td className="text-center px-4 py-2 text-gray-500 hover:text-orange-500">
