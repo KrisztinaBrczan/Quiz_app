@@ -74,7 +74,7 @@ export default function Leaderboard() {
             perPage={perPage}
             handlePerPageChange={handlePerPageChange}
           />
-          <table id="example" className="table-auto ">
+          <table id="example" className="w-full">
             <thead className="text-orange-500">
               <tr>
                 <th className="px-4 py-2">#</th>
